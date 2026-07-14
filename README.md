@@ -191,8 +191,8 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 | `모델을 찾을 수 없음` / `no match` | 무료 모델 이름이 바뀐 겁니다. 아래 링크에서 유효한 이름을 찾아 `~/.gjc-free/agent/` 안의 `models.yml`·`config.yml`을 고치세요.<br>OpenRouter: <https://openrouter.ai/models?q=free> · Groq: <https://console.groq.com/docs/models> |
 | Gemini 로그인 브라우저가 안 열림 | 터미널에 뜬 주소(링크)를 복사해 직접 브라우저 주소창에 붙여넣으세요. |
 
-> 🗨️ **혼자 해결 안 되면** — AI 도우미 오픈카톡에서 물어보세요: **<https://open.kakao.com/o/pW7JOXDi>**
-> (에이전트 AI가 설치·설정을 도와줍니다)
+> 🗨️ **혼자 해결 안 되면** — 오픈카톡으로 물어보세요: **<https://open.kakao.com/o/pW7JOXDi>**
+> (제작자가 직접 답변합니다 ㅎㅎ)
 
 ---
 
