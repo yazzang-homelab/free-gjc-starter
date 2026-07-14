@@ -179,6 +179,7 @@ source ~/.zshrc</code></pre>
     터미널에 <code>free-gjc</code> 입력 → gjc가 뜨면 <b>본인 구글 계정으로 로그인</b>:
     <pre><code>/login google-gemini-cli</code></pre>
     <b>기본값이 이미 무료 Gemini(<code>google-gemini-cli/gemini-2.5-pro</code>)라 위 로그인만 하면 바로 됩니다.</b> (설정 수정 불필요)
+    <div class="warn">⚠️ <b>로그인 전에</b> — 브라우저에 구글 계정을 <b>여러 개</b>(개인+회사/학교) 로그인해 두면 엉뚱한 조직(Workspace) 계정으로 인증돼 <code>GOOGLE_CLOUD_PROJECT ...</code> 오류가 납니다. <b>시크릿(인프라이빗) 창</b>에서 개인 지메일 1개만 로그인한 채로 진행하세요.</div>
     <div class="warn">⚠️ <b><code>google-antigravity</code>는 쓰지 마세요.</b> Antigravity는 별도 접근권/구독이 있어야 하고, 없으면 로그인돼도 실행 시
     <b>404 (Requested entity was not found)</b> 가 납니다. Opus 등 Anthropic 모델도 Antigravity 전용이라 동일.
     Antigravity 접근권이 <b>확실히 있는</b> 사람만 <code>/login google-antigravity</code> 후 default를 <code>google-antigravity/gemini-3.1-pro-low:high</code> 로 바꾸세요.</div>
