@@ -145,6 +145,8 @@ source ~/.zshrc
 ### 방식 A — Gemini를 메인으로 (로그인만, 키 없이)
 터미널에 `free-gjc` 를 치고, `gjc` 화면이 뜨면 아래 중 **하나**를 입력하고 엔터 → 브라우저에서 **본인 구글 계정으로 로그인**하세요.
 
+> ⚠️ **로그인 전에 꼭 읽으세요.** 브라우저에 구글 계정을 **여러 개**(개인+회사/학교) 로그인해 두면, 로그인 창이 엉뚱한 조직(Workspace) 계정으로 인증돼 `GOOGLE_CLOUD_PROJECT ...` 오류가 납니다. **시크릿(인프라이빗) 창을 새로 열어 개인 지메일 1개만 로그인한 상태**에서 진행하거나, 회사 계정을 로그아웃하고 개인 계정만 남기세요.
+
 - Google AI 구독이 있으면 →  `/login google-antigravity`
 - 그냥 **무료로** 쓰려면 →  `/login google-gemini-cli`
 
@@ -190,6 +192,7 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 | AI가 `401` / `unauthorized` / `키 없음` 이라고 함 | 5번 키 입력을 다시 하고 **터미널을 새로** 여세요. 키를 잘못 복사했을 수 있어요. |
 | `모델을 찾을 수 없음` / `no match` | 무료 모델 이름이 바뀐 겁니다. 아래 링크에서 유효한 이름을 찾아 `~/.gjc-free/agent/` 안의 `models.yml`·`config.yml`을 고치세요.<br>OpenRouter: <https://openrouter.ai/models?q=free> · Groq: <https://console.groq.com/docs/models> |
 | Gemini 로그인 브라우저가 안 열림 | 터미널에 뜬 주소(링크)를 복사해 직접 브라우저 주소창에 붙여넣으세요. |
+| `GOOGLE_CLOUD_PROJECT ... 환경변수를 설정해야` / `requires setting the GOOGLE_CLOUD_PROJECT` | **브라우저에 구글 계정을 여러 개 로그인해 두면** 로그인 창이 엉뚱한 회사/조직(Workspace) 계정으로 인증돼서 나는 오류입니다(개인 계정으로 로그인해도 발생). 해결: **시크릿/인프라이빗 창**을 새로 열고 **개인 지메일 1개만** 로그인한 상태에서, 터미널에 뜬 로그인 주소를 그 창에 붙여넣으세요. (또는 브라우저에서 회사/조직 계정을 전부 로그아웃하고 개인 계정만 남긴 뒤 재시도.) 그래도 안 되면 방식 B(NVIDIA GLM-5.2)로 쓰세요. |
 
 > 🗨️ **혼자 해결 안 되면** — 오픈카톡으로 물어보세요: **<https://open.kakao.com/o/pW7JOXDi>**
 > (이 세팅 올린 사람이 직접 답변합니다. gjc 원작자와는 무관해요 ㅎㅎ)
