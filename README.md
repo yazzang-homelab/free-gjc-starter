@@ -143,18 +143,17 @@ source ~/.zshrc
 ## 6. 메인 두뇌 정하기 (A 또는 B)
 
 ### 방식 A — Gemini를 메인으로 (로그인만, 키 없이)
-터미널에 `free-gjc` 를 치고, `gjc` 화면이 뜨면 아래 중 **하나**를 입력하고 엔터 → 브라우저에서 **본인 구글 계정으로 로그인**하세요.
+터미널에 `free-gjc` 를 치고, `gjc` 화면이 뜨면 아래를 입력하고 엔터 → 브라우저에서 **본인 구글 계정으로 로그인**하세요.
 
 > ⚠️ **로그인 전에 꼭 읽으세요.** 브라우저에 구글 계정을 **여러 개**(개인+회사/학교) 로그인해 두면, 로그인 창이 엉뚱한 조직(Workspace) 계정으로 인증돼 `GOOGLE_CLOUD_PROJECT ...` 오류가 납니다. **시크릿(인프라이빗) 창을 새로 열어 개인 지메일 1개만 로그인한 상태**에서 진행하거나, 회사 계정을 로그아웃하고 개인 계정만 남기세요.
 
-- Google AI 구독이 있으면 →  `/login google-antigravity`
-- 그냥 **무료로** 쓰려면 →  `/login google-gemini-cli`
+```
+/login google-gemini-cli
+```
 
-> 무료(`google-gemini-cli`)로 쓸 거면, `~/.gjc-free/agent/config.yml` 파일을 메모장/텍스트편집기로 열어
-> `default:` 로 시작하는 줄을 이렇게 바꾸세요:
-> ```yaml
->   default: google-gemini-cli/gemini-2.5-pro
-> ```
+- **기본값이 이미 무료 Gemini(`google-gemini-cli/gemini-2.5-pro`)라, 위 로그인만 하면 바로 됩니다.** (설정 수정 불필요)
+- ⚠️ **`google-antigravity`는 쓰지 마세요** — Antigravity는 별도 접근권/구독이 있어야 하고, 없으면 로그인돼도 실행 시 **404 (Requested entity was not found)** 가 납니다. Opus 같은 Anthropic 모델도 Antigravity 전용이라 마찬가지입니다.
+- (Antigravity 구독·접근권이 **확실히 있는** 사람만) `/login google-antigravity` 후 `default: google-antigravity/gemini-3.1-pro-low:high` 로 바꿔도 됩니다.
 
 ### 방식 B — Gemini 없이 NVIDIA GLM-5.2를 메인으로
 로그인 필요 없이 **NVIDIA 키**(4번에서 발급)만 있으면 됩니다.
@@ -190,6 +189,7 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 | `gjc: command not found` / `인식할 수 없습니다` | 터미널을 **완전히 닫고 새로** 여세요. 그래도면 2번 설치를 다시 하세요. |
 | `git: command not found` | 3번 아래 안내대로 Git을 먼저 설치하세요. |
 | AI가 `401` / `unauthorized` / `키 없음` 이라고 함 | 5번 키 입력을 다시 하고 **터미널을 새로** 여세요. 키를 잘못 복사했을 수 있어요. |
+| **`Cloud Code Assist API error (404): Requested entity was not found`** | 로그인은 됐지만 **그 모델이 당신 계정에 없는** 경우입니다. 대부분 `google-antigravity`(구독/접근권 필요)로 로그인했거나 Opus 같은 Antigravity 전용 모델을 골랐을 때 납니다.<br>→ **무료 사용자는 `google-antigravity` 말고 `/login google-gemini-cli`** 로 로그인하고, `~/.gjc-free/agent/config.yml`의 `default:`가 `google-gemini-cli/gemini-2.5-pro` 인지 확인하세요. (이 세팅 기본값이 이미 이겁니다.)<br>기존에 antigravity로 로그인했다면 `free-gjc /logout` 후 `google-gemini-cli`로 다시 로그인. |
 | `모델을 찾을 수 없음` / `no match` | 무료 모델 이름이 바뀐 겁니다. 아래 링크에서 유효한 이름을 찾아 `~/.gjc-free/agent/` 안의 `models.yml`·`config.yml`을 고치세요.<br>OpenRouter: <https://openrouter.ai/models?q=free> · Groq: <https://console.groq.com/docs/models> |
 | Gemini 로그인 브라우저가 안 열림 | 터미널에 뜬 주소(링크)를 복사해 직접 브라우저 주소창에 붙여넣으세요. |
 | `GOOGLE_CLOUD_PROJECT ... 환경변수를 설정해야` / `requires setting the GOOGLE_CLOUD_PROJECT` | **브라우저에 구글 계정을 여러 개 로그인해 두면** 로그인 창이 엉뚱한 회사/조직(Workspace) 계정으로 인증돼서 나는 오류입니다(개인 계정으로 로그인해도 발생). 해결: **시크릿/인프라이빗 창**을 새로 열고 **개인 지메일 1개만** 로그인한 상태에서, 터미널에 뜬 로그인 주소를 그 창에 붙여넣으세요. (또는 브라우저에서 회사/조직 계정을 전부 로그아웃하고 개인 계정만 남긴 뒤 재시도.) 그래도 안 되면 방식 B(NVIDIA GLM-5.2)로 쓰세요. |

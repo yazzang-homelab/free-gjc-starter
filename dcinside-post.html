@@ -79,9 +79,8 @@ echo 'export NVIDIA_API_KEY="여기에_키"'     &gt;&gt; ~/.zshrc
 source ~/.zshrc</pre>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">7. 메인 두뇌 정하기</h3>
-<p><b>[방식 A] Gemini</b> — <code style="background:#eee;padding:1px 5px;border-radius:4px;">free-gjc</code> 실행 후:<br>
-· 구독 있음 → <code style="background:#eee;padding:1px 5px;border-radius:4px;">/login google-antigravity</code><br>
-· 무료로 → <code style="background:#eee;padding:1px 5px;border-radius:4px;">/login google-gemini-cli</code> (그리고 config.yml의 default를 <code style="background:#eee;padding:1px 5px;border-radius:4px;">google-gemini-cli/gemini-2.5-pro</code>로)</p>
+<p><b>[방식 A] Gemini(무료)</b> — <code style="background:#eee;padding:1px 5px;border-radius:4px;">free-gjc</code> 실행 후 <code style="background:#eee;padding:1px 5px;border-radius:4px;">/login google-gemini-cli</code>. <b>기본값이 이미 <code style="background:#eee;padding:1px 5px;border-radius:4px;">google-gemini-cli/gemini-2.5-pro</code>라 로그인만 하면 됨.</b><br>
+⚠️ <b><code style="background:#eee;padding:1px 5px;border-radius:4px;">google-antigravity</code>는 쓰지 마셈</b> — 별도 접근권/구독 없으면 <b>404(Requested entity was not found)</b> 남. Opus 등 Anthropic 모델도 Antigravity 전용이라 동일. (Antigravity 있는 사람만 antigravity 로그인+default 교체)</p>
 <p><b>[방식 B] GLM-5.2</b> — 로그인 없이 NVIDIA 키만. <code style="background:#eee;padding:1px 5px;border-radius:4px;">~/.gjc-free/agent/config.yml</code> 의 default를:</p>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">modelRoles:
   default: nvidia-nim/z-ai/glm-5.2</pre>

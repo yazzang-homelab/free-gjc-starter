@@ -176,16 +176,12 @@ source ~/.zshrc</code></pre>
 
   <h3><span class="pill pA">방식 A</span> Gemini를 메인으로 (로그인만)</h3>
   <div class="card">
-    터미널에 <code>free-gjc</code> 입력 → gjc가 뜨면 아래 중 <b>하나</b>를 입력하고 <kbd>Enter</kbd> → 브라우저에서 <b>본인 구글 계정 로그인</b>.
-    <table>
-      <tr><th>상황</th><th>입력할 명령</th></tr>
-      <tr><td>Google AI 구독 있음</td><td><code>/login google-antigravity</code></td></tr>
-      <tr><td>구독 없음(무료로)</td><td><code>/login google-gemini-cli</code></td></tr>
-    </table>
-    <div class="warn">무료(<code>google-gemini-cli</code>)로 쓸 거면 설정 파일의 메인 모델 한 줄만 바꿉니다.<br>
-    파일: <code>~/.gjc-free/agent/config.yml</code> (윈도우는 <code>%USERPROFILE%\.gjc-free\agent\config.yml</code>) — 메모장/텍스트편집기로 열어서:
-    <pre><code>modelRoles:
-  default: google-gemini-cli/gemini-2.5-pro   # 이 줄만 이렇게</code></pre></div>
+    터미널에 <code>free-gjc</code> 입력 → gjc가 뜨면 <b>본인 구글 계정으로 로그인</b>:
+    <pre><code>/login google-gemini-cli</code></pre>
+    <b>기본값이 이미 무료 Gemini(<code>google-gemini-cli/gemini-2.5-pro</code>)라 위 로그인만 하면 바로 됩니다.</b> (설정 수정 불필요)
+    <div class="warn">⚠️ <b><code>google-antigravity</code>는 쓰지 마세요.</b> Antigravity는 별도 접근권/구독이 있어야 하고, 없으면 로그인돼도 실행 시
+    <b>404 (Requested entity was not found)</b> 가 납니다. Opus 등 Anthropic 모델도 Antigravity 전용이라 동일.
+    Antigravity 접근권이 <b>확실히 있는</b> 사람만 <code>/login google-antigravity</code> 후 default를 <code>google-antigravity/gemini-3.1-pro-low:high</code> 로 바꾸세요.</div>
   </div>
 
   <h3><span class="pill pB">방식 B</span> Gemini 없이 NVIDIA GLM-5.2를 메인으로</h3>
@@ -211,6 +207,7 @@ free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</cod
     <tr><td><code>command not found</code> / <code>인식할 수 없습니다</code></td><td>터미널을 <b>완전히 닫고 새로</b> 열기. 안 되면 3번 설치 재실행.</td></tr>
     <tr><td><code>git ... 없음</code></td><td>4번 아래 안내대로 Git 먼저 설치.</td></tr>
     <tr><td><code>No API key</code> / <code>401</code> / <code>unauthorized</code></td><td>그 provider 키를 6번대로 다시 넣고 <b>터미널 새로</b> 열기. 키 오타·잘못 복사 확인.</td></tr>
+    <tr><td><code>Cloud Code Assist API error (404)</code> / <code>Requested entity was not found</code></td><td>로그인은 됐지만 <b>그 모델이 계정에 없음.</b> 대개 <code>google-antigravity</code>(구독/접근권 필요)로 로그인했거나 Opus 등 Antigravity 전용 모델을 고른 경우.<br>→ 무료면 <code>/login google-gemini-cli</code> 로 로그인하고 <code>default</code>가 <code>google-gemini-cli/gemini-2.5-pro</code>인지 확인. 이미 antigravity로 로그인했다면 <code>free-gjc /logout</code> 후 재로그인.</td></tr>
     <tr><td><code>no match</code> / 모델 못 찾음</td><td>무료 모델 이름이 바뀐 것. 유효한 id를 찾아 <code>~/.gjc-free/agent/</code> 의 <code>models.yml</code>·<code>config.yml</code> 수정.<br>OpenRouter <a href="https://openrouter.ai/models?q=free" target="_blank" rel="noopener">무료 목록</a> · Groq <a href="https://console.groq.com/docs/models" target="_blank" rel="noopener">모델</a> · NVIDIA <a href="https://build.nvidia.com/models" target="_blank" rel="noopener">모델</a></td></tr>
     <tr><td>Gemini 로그인 창이 안 열림</td><td>터미널에 표시된 주소를 복사해 브라우저 주소창에 직접 붙여넣기.</td></tr>
   </table>
@@ -254,7 +251,7 @@ free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</cod
   <footer>
     free-gjc-starter · <a href="https://github.com/yazzang-homelab/free-gjc-starter" target="_blank" rel="noopener">GitHub</a> ·
     이 문서와 repo에는 API 키·개인정보가 하나도 없습니다. 키는 각자 본인 환경변수에만 보관하세요.
-    <br><span class="muted">문서 버전: 2026-07-14b · 이 페이지에 "3. gjc 설치" 섹션이 보이면 최신본입니다.</span>
+    <br><span class="muted">문서 버전: 2026-07-14c · 이 페이지에 "3. gjc 설치" 섹션이 보이면 최신본입니다.</span>
   </footer>
 
 </div>
