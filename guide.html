@@ -141,12 +141,13 @@
   <div class="os">🪟 윈도우</div>
   <pre><code>git clone https://github.com/yazzang-homelab/free-gjc-starter.git
 cd free-gjc-starter
-.\install.ps1</code></pre>
+powershell -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
   <div class="os">🍎 맥 / 리눅스</div>
   <pre><code>git clone https://github.com/yazzang-homelab/free-gjc-starter.git
 cd free-gjc-starter
 bash install.sh</code></pre>
-  <p class="muted">❔ <code>git ... 없음</code> → 윈도우는 <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a>에서 설치, 맥은 <code>xcode-select --install</code> 후 다시 시도.</p>
+  <p class="muted">❔ <code>git ... 없음</code> → 윈도우는 <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a>에서 설치, 맥은 <code>xcode-select --install</code> 후 다시 시도.
+  <br>❔ <code>이 시스템에서 스크립트를 실행할 수 없으므로</code> / <code>UnauthorizedAccess</code> → 윈도우 기본 보안 정책이 <code>.ps1</code>을 막는 것. 위 명령(<code>-ExecutionPolicy Bypass</code>)으로 실행하면 됩니다.</p>
 
   <h2 id="keys">5. 무료 API 키 발급</h2>
   <p>일꾼 AI가 쓸 <b>무료 열쇠</b>를 받습니다. 카드 등록 필요 없어요. 각 사이트에서 <b>구글 로그인 → Create Key → 이름 입력 → 만들기 → 키 복사</b>.</p>

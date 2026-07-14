@@ -83,7 +83,7 @@ gjc --version
 ```powershell
 git clone https://github.com/yazzang-homelab/free-gjc-starter.git
 cd free-gjc-starter
-.\install.ps1
+powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
 ### 🍎 맥 / 리눅스
@@ -93,6 +93,7 @@ cd free-gjc-starter
 bash install.sh
 ```
 > ❔ `git: command not found` 이 나오면 → 윈도우는 <https://git-scm.com/download/win> 에서 Git 설치, 맥은 터미널에 `xcode-select --install` 입력 후 설치하고 다시 시도하세요.
+> ❔ `이 시스템에서 스크립트를 실행할 수 없으므로` / `UnauthorizedAccess` 가 나오면 → 윈도우 기본 보안 정책이 `.ps1` 실행을 막는 겁니다. 위처럼 `powershell -ExecutionPolicy Bypass -File .\install.ps1` 로 실행하세요. (`.\install.ps1` 직접 실행은 정책을 풀어야만 됩니다.)
 
 ---
 

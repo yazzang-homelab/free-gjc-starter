@@ -51,11 +51,12 @@
 <p style="margin-bottom:4px;color:#555;">🪟 윈도우:</p>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">git clone https://github.com/yazzang-homelab/free-gjc-starter.git
 cd free-gjc-starter
-.\install.ps1</pre>
+powershell -ExecutionPolicy Bypass -File .\install.ps1</pre>
 <p style="margin-bottom:4px;color:#555;">🍎 맥 / 리눅스:</p>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">git clone https://github.com/yazzang-homelab/free-gjc-starter.git
 cd free-gjc-starter
 bash install.sh</pre>
+<p style="margin:4px 0;color:#555;">❔ "이 시스템에서 스크립트를 실행할 수 없으므로" 오류 = 윈도우 기본 정책이 .ps1을 막는 것 → 위처럼 <b>-ExecutionPolicy Bypass</b> 붙여 실행하면 됨.</p>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">5. 무료 API 키 발급</h3>
 <p>각 사이트에서 <b>구글 로그인 → Create Key → 이름 입력 → 키 복사</b>.</p>
