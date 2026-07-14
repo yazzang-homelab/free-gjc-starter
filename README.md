@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/gajae-hero.png" alt="gajae-code" width="820">
+</p>
+
 # free-gjc-starter — 왕초보용 무료 AI 코딩 도우미 세팅
 
 컴퓨터에 **무료로** AI 코딩 비서(`gjc`)를 깔아서 쓰는 가장 쉬운 방법입니다.
@@ -215,3 +219,18 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 | `bin/free-gjc`, `.cmd`, `.ps1` | PATH | `free-gjc` 실행기 (프로필 격리) |
 | `install.sh` / `install.ps1` | — | 설치 스크립트 |
 | `guide.html` | — | 그림 포함 키 발급 가이드 |
+
+---
+
+## ☕ 후원
+
+이 가이드가 도움이 됐다면 **커피 한잔** 부탁드립니다 ㅎㅎ
+
+<p align="center">
+  <a href="https://emulog.app/donate.html">
+    <img src="assets/gajae-character.png" alt="커피 한잔 후원하기" width="120"><br>
+    <b>☕ 커피 한잔 후원하기</b>
+  </a>
+</p>
+
+> 후원은 emulog.app 후원 페이지로 연결됩니다. (이 repo에는 계좌·결제 정보가 저장돼 있지 않습니다.)
