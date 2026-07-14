@@ -47,6 +47,22 @@ providers:
         maxTokens: 8000
         cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }
 
+  # --- 무료 메인 대안(2nd): NVIDIA NIM · GLM-5.2 ---
+  # Gemini를 아예 안 쓰는 사람용 메인 모델 후보 + Gemini 장애 시 default 폴백.
+  # 무료 키 발급: https://build.nvidia.com/z-ai/glm-5.2  →  export NVIDIA_API_KEY=...
+  nvidia-nim:
+    baseUrl: https://integrate.api.nvidia.com/v1
+    apiKeyEnv: NVIDIA_API_KEY
+    api: openai-completions
+    models:
+      - id: z-ai/glm-5.2
+        name: 【무료】 GLM-5.2 (753B) · NVIDIA NIM
+        reasoning: true
+        input: [text]
+        contextWindow: 1000000
+        maxTokens: 32000
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }
+
   # 메인 루프(default)는 gjc 내장 google provider를 OAuth 로그인으로 쓴다 → 여기 항목 불필요.
   #   구독(Google AI/Antigravity): /login google-antigravity
   #   무료(Gemini CLI, 구글 계정):  /login google-gemini-cli  (README에서 default 셀렉터만 교체)

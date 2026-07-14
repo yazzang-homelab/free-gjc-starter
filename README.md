@@ -92,14 +92,19 @@ bash install.sh
 
 ---
 
-## 4. 무료 키 2개 받기
+## 4. 무료 키 받기 (2~3개)
 
-일꾼 AI들이 쓸 **무료 열쇠(API 키)** 2개를 받습니다. 카드 등록 필요 없어요.
+일꾼 AI들이 쓸 **무료 열쇠(API 키)** 를 받습니다. 카드 등록 필요 없어요.
 
-| 어디서 | 링크 | 받을 것 |
-| --- | --- | --- |
-| **OpenRouter** | <https://openrouter.ai/keys> | `sk-or-v1-...` 로 시작하는 키 |
-| **Groq** | <https://console.groq.com/keys> | `gsk_...` 로 시작하는 키 |
+| 어디서 | 링크 | 받을 것 | 언제 필요? |
+| --- | --- | --- | --- |
+| **OpenRouter** | <https://openrouter.ai/keys> | `sk-or-v1-...` | **항상** |
+| **Groq** | <https://console.groq.com/keys> | `gsk_...` | **항상** |
+| **NVIDIA NIM** | <https://build.nvidia.com/z-ai/glm-5.2> → **Get API Key** | `nvapi-...` | **방식 B 필수** / 방식 A는 선택(안정성↑) |
+
+> **방식 A** = Gemini를 메인으로(구독 또는 무료 로그인) → OpenRouter·Groq 2개면 됨.
+> **방식 B** = Gemini 안 쓰고 NVIDIA **GLM-5.2**를 메인으로 → NVIDIA 키까지 3개.
+> (방식 A여도 Gemini가 막히면 자동으로 GLM-5.2로 넘어가므로 NVIDIA 키를 넣어두면 더 안정적)
 
 각 사이트에서 **구글 계정으로 로그인 → "Create Key" 버튼 → 이름 아무거나 → 만들기 → 나온 키를 복사**하면 됩니다.
 (버튼 위치까지 그림으로 보려면 [`guide.html`](guide.html) 참고)
@@ -116,6 +121,7 @@ bash install.sh
 ```powershell
 setx OPENROUTER_API_KEY "여기에_복사한키_붙여넣기"
 setx GROQ_API_KEY "여기에_복사한키_붙여넣기"
+setx NVIDIA_API_KEY "여기에_복사한키_붙여넣기"
 ```
 👉 그리고 **터미널을 닫고 새로 여세요.** (`setx`는 새 창부터 적용돼요)
 
@@ -123,26 +129,35 @@ setx GROQ_API_KEY "여기에_복사한키_붙여넣기"
 ```bash
 echo 'export OPENROUTER_API_KEY="여기에_복사한키_붙여넣기"' >> ~/.zshrc
 echo 'export GROQ_API_KEY="여기에_복사한키_붙여넣기"' >> ~/.zshrc
+echo 'export NVIDIA_API_KEY="여기에_복사한키_붙여넣기"' >> ~/.zshrc
 source ~/.zshrc
 ```
 > (오래된 맥/리눅스라 `zsh`가 아니면 `~/.zshrc`를 `~/.bashrc`로 바꿔 쓰세요.)
 
 ---
 
-## 6. 메인 두뇌 Gemini 로그인 (키 없이!)
+## 6. 메인 두뇌 정하기 (A 또는 B)
 
-터미널에 이렇게 칩니다:
-```bash
-free-gjc
-```
-`gjc` 화면이 뜨면 아래 중 **하나**를 입력하고 엔터 → 브라우저가 열리면 **본인 구글 계정으로 로그인**하세요.
+### 방식 A — Gemini를 메인으로 (로그인만, 키 없이)
+터미널에 `free-gjc` 를 치고, `gjc` 화면이 뜨면 아래 중 **하나**를 입력하고 엔터 → 브라우저에서 **본인 구글 계정으로 로그인**하세요.
 
-- Google AI 요금제(구독)가 있으면 →  `/login google-antigravity`
+- Google AI 구독이 있으면 →  `/login google-antigravity`
 - 그냥 **무료로** 쓰려면 →  `/login google-gemini-cli`
 
-> 무료(`google-gemini-cli`)로 쓸 거면, 로그인 후 `~/.gjc-free/agent/config.yml` 파일을 열어
-> `default:` 로 시작하는 줄을 `default: google-gemini-cli/gemini-2.5-pro` 로 바꾸면 됩니다.
-> (파일 여는 법: 메모장/텍스트편집기로 열면 돼요)
+> 무료(`google-gemini-cli`)로 쓸 거면, `~/.gjc-free/agent/config.yml` 파일을 메모장/텍스트편집기로 열어
+> `default:` 로 시작하는 줄을 이렇게 바꾸세요:
+> ```yaml
+>   default: google-gemini-cli/gemini-2.5-pro
+> ```
+
+### 방식 B — Gemini 없이 NVIDIA GLM-5.2를 메인으로
+로그인 필요 없이 **NVIDIA 키**(4번에서 발급)만 있으면 됩니다.
+`~/.gjc-free/agent/config.yml` 을 열어 `default:` 줄을 이렇게 바꾸세요:
+```yaml
+modelRoles:
+  default: nvidia-nim/z-ai/glm-5.2   # 메인 = 무료 GLM-5.2 (753B)
+```
+> 폴백 순서(Gemini → GLM-5.2)는 이미 들어있으니 `default` 한 줄만 바꾸면 끝입니다.
 
 ---
 
@@ -184,12 +199,12 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 
 | 역할 | 모델 | 조달 |
 | --- | --- | --- |
-| 메인(default) | Gemini | 구글 로그인 (구독 또는 무료) |
+| 메인(default) | Gemini(방식 A) / GLM-5.2(방식 B) | 구글 로그인 또는 NVIDIA 키 |
 | executor·architect | Nemotron 3 Super 120B (무료) | OpenRouter 키 |
 | planner | Llama 3.3 70B (무료) | Groq 키 |
 | critic | Llama 3.1 8B Instant (무료) | Groq 키 |
 
-무료 모델이 멈추면 다른 무료 모델 → 마지막엔 메인 Gemini로 자동 전환됩니다.
+메인은 **Gemini 1순위 → NVIDIA GLM-5.2 2순위**로 자동 폴백. 서브에이전트 무료 모델이 멈추면 다른 무료 → 마지막엔 GLM-5.2로 전환됩니다.
 
 ## 파일 구성 (개발자용)
 

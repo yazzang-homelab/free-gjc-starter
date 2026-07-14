@@ -3,117 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>free-gjc-starter · 무료 API 키 발급 가이드</title>
+<title>free-gjc-starter · 왕초보 풀 가이드 (설치 → 키 → 세팅)</title>
 <style>
-  :root{--bg:#0f1115;--card:#171a21;--line:#262b36;--fg:#e6e8ec;--muted:#9aa3b2;--accent:#7dd3fc;--green:#86efac;--yellow:#fde68a;--red:#fca5a5;--code:#0b0d11}
+  :root{--bg:#0f1115;--card:#171a21;--line:#262b36;--fg:#e6e8ec;--muted:#9aa3b2;--accent:#7dd3fc;--green:#86efac;--yellow:#fde68a;--red:#fca5a5;--purple:#c4b5fd;--code:#0b0d11}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif}
-  .wrap{max-width:860px;margin:0 auto;padding:32px 20px 80px}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 20px 90px}
   h1{font-size:28px;margin:0 0 6px}
-  .sub{color:var(--muted);margin:0 0 28px}
-  h2{font-size:21px;margin:38px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+  .sub{color:var(--muted);margin:0 0 22px}
+  h2{font-size:22px;margin:40px 0 12px;padding-top:16px;border-top:1px solid var(--line)}
   h3{font-size:16px;margin:20px 0 6px;color:var(--accent)}
   a{color:var(--accent)}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:14px 0}
   table{width:100%;border-collapse:collapse;margin:12px 0;font-size:15px}
   th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
   th{background:#1d222c;color:var(--muted);font-weight:600}
   code{background:var(--code);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;font-size:13.5px}
-  pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;font-size:13.5px;line-height:1.55}
+  pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;font-size:13.5px;line-height:1.55;position:relative}
   pre code{background:none;border:none;padding:0}
+  .os{font-size:12.5px;font-weight:700;color:var(--muted);margin:14px 0 4px}
   ol{padding-left:22px}ol li{margin:6px 0}
-  .tag{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;margin-right:6px}
+  ul{padding-left:20px}
+  .tag{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;margin-right:4px}
   .free{background:#14351f;color:var(--green)}
   .oauth{background:#1a2c3a;color:var(--accent)}
+  .opt{background:#2a2440;color:var(--purple)}
   .warn{border-left:4px solid var(--yellow);background:#1e1c12;padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
   .danger{border-left:4px solid var(--red);background:#241416;padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
-  .step{counter-reset:none}
+  .ok{border-left:4px solid var(--green);background:#12210f;padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
   .muted{color:var(--muted)}
-  .pill{font-size:12px;color:var(--muted)}
-  footer{margin-top:50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
-  .grid{display:grid;grid-template-columns:1fr;gap:0}
+  .toc{columns:2;font-size:14.5px}
+  .toc a{display:block;padding:2px 0}
+  .branch{display:flex;gap:12px;flex-wrap:wrap}
+  .branch .card{flex:1;min-width:260px}
+  .pill{font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px}
+  .pA{background:#1a2c3a;color:var(--accent)}
+  .pB{background:#2a2440;color:var(--purple)}
+  footer{margin-top:56px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
+  kbd{background:#222834;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;font-size:12.5px}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <h1>free-gjc-starter · 무료 API 키 가이드</h1>
-  <p class="sub">초보자용. 메인 두뇌는 <b>Gemini(로그인만, 키 불필요)</b>, 서브에이전트는 <b>무료 API 키 2개</b>(OpenRouter · Groq)면 끝.</p>
+  <h1>free-gjc-starter · 왕초보 풀 가이드</h1>
+  <p class="sub">컴퓨터에 <b>무료 AI 코딩 비서(gjc)</b> 깔기. 터미널 여는 법부터 → 프로그램 설치 → 무료 키 발급 → 설정까지 전부.</p>
+
+  <div class="card">
+    <b>순서</b>
+    <div class="toc">
+      <a href="#pick">0. 어떤 방식으로 쓸지 고르기</a>
+      <a href="#prep">1. 준비물</a>
+      <a href="#term">2. 터미널 여는 법</a>
+      <a href="#install">3. gjc 설치</a>
+      <a href="#setup">4. 이 무료 세팅 설치</a>
+      <a href="#keys">5. 무료 API 키 발급</a>
+      <a href="#env">6. 키를 컴퓨터에 넣기</a>
+      <a href="#main">7. 메인 두뇌 정하기 (A/B)</a>
+      <a href="#verify">8. 확인 & 첫 대화</a>
+      <a href="#trouble">문제 해결</a>
+    </div>
+  </div>
 
   <div class="danger">
-    <b>⚠ 보안 원칙</b><br>
-    발급받은 키는 <b>절대 이 repo나 어떤 파일에도 붙여넣지 마세요.</b> 오직 <b>본인 PC의 환경변수</b>에만 넣습니다.
-    이 세팅의 <code>models.yml</code>은 키의 <b>이름</b>(<code>apiKeyEnv</code>)만 참조하므로, 파일을 공유해도 키는 새지 않습니다.
+    <b>⚠ 딱 하나만 지키세요</b> — 발급받은 키는 <b>비밀번호</b>입니다. 남에게 보여주거나 파일·채팅에 붙여넣지 말고,
+    아래 안내대로 <b>본인 PC의 환경변수</b>에만 넣으세요. 이 세팅 파일에는 키가 <b>이름</b>으로만 들어갑니다.
   </div>
 
-  <h2>한눈에 — 뭐가 필요한가</h2>
-  <table>
-    <tr><th>역할</th><th>모델</th><th>필요한 것</th><th>비용</th></tr>
-    <tr><td>메인(default)</td><td>Gemini</td><td><span class="tag oauth">OAuth 로그인</span>키 불필요</td><td>구독 또는 무료</td></tr>
-    <tr><td>executor·architect</td><td>Nemotron 3 Super 120B</td><td><code>OPENROUTER_API_KEY</code></td><td><span class="tag free">무료</span></td></tr>
-    <tr><td>planner</td><td>Llama 3.3 70B</td><td><code>GROQ_API_KEY</code></td><td><span class="tag free">무료</span></td></tr>
-    <tr><td>critic</td><td>Llama 3.1 8B Instant</td><td><code>GROQ_API_KEY</code></td><td><span class="tag free">무료</span></td></tr>
-  </table>
-  <p class="muted">→ 발급받을 무료 키는 <b>딱 2개</b>: <code>OPENROUTER_API_KEY</code>, <code>GROQ_API_KEY</code>. Gemini는 로그인만 하면 됩니다.</p>
-
-  <h2>① OpenRouter 키 발급 <span class="tag free">무료</span></h2>
-  <div class="card step">
-    <ol>
-      <li><a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a> 접속 → 구글/깃허브 계정으로 <b>Sign in</b>.</li>
-      <li><a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a> 로 이동 → <b>Create Key</b> 클릭.</li>
-      <li>이름 아무거나(예: <code>free-gjc</code>) 입력 후 생성 → <b><code>sk-or-v1-...</code></b> 키 복사.</li>
-      <li class="muted">이 세팅은 <code>:free</code> 모델만 쓰므로 결제 등록 없이 무료로 동작합니다. (일부 무료 모델은 일일 한도가 있음)</li>
-    </ol>
+  <h2 id="pick">0. 어떤 방식으로 쓸지 고르기</h2>
+  <p>메인 두뇌(가장 똑똑한 역할)를 뭘로 할지 두 갈래입니다. <b>나머지 일꾼들은 두 경우 다 무료</b>입니다.</p>
+  <div class="branch">
+    <div class="card">
+      <span class="pill pA">방식 A</span> <b>Gemini를 메인으로</b> <span class="tag oauth">추천</span><br><br>
+      구글 계정으로 <b>로그인만</b> 하면 됩니다. 카드 등록 X.
+      <ul>
+        <li>Google AI 구독 있음 → 그대로 사용</li>
+        <li>구독 없음 → <b>Gemini CLI 무료 티어</b>로도 됩니다</li>
+      </ul>
+      <span class="muted">필요한 무료 키: OpenRouter, Groq (2개)</span>
+    </div>
+    <div class="card">
+      <span class="pill pB">방식 B</span> <b>Gemini 없이, NVIDIA GLM-5.2를 메인으로</b><br><br>
+      구글/Gemini를 아예 안 쓰고 싶을 때. NVIDIA의 무료 <b>GLM-5.2(753B)</b>를 메인으로 씁니다.
+      <ul><li>로그인 대신 NVIDIA 무료 키 사용</li></ul>
+      <span class="muted">필요한 무료 키: OpenRouter, Groq, NVIDIA (3개)</span>
+    </div>
   </div>
+  <p class="muted">※ 방식 A로 해도 Gemini가 잠깐 막히면 자동으로 GLM-5.2로 넘어가도록 이미 설정돼 있습니다(Gemini 1순위 → GLM 2순위). 그래서 A여도 NVIDIA 키를 넣어두면 더 안정적입니다.</p>
 
-  <h2>② Groq 키 발급 <span class="tag free">무료</span></h2>
-  <div class="card step">
-    <ol>
-      <li><a href="https://console.groq.com" target="_blank" rel="noopener">console.groq.com</a> 접속 → 구글 계정으로 로그인.</li>
-      <li><a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a> → <b>Create API Key</b> 클릭.</li>
-      <li>이름 입력 후 생성 → <b><code>gsk_...</code></b> 키 복사. <span class="muted">(생성 직후 한 번만 보이니 바로 복사)</span></li>
-      <li class="muted">Groq는 무료 티어로 매우 빠른 추론 속도를 제공합니다.</li>
-    </ol>
-  </div>
+  <h2 id="prep">1. 준비물 (5분)</h2>
+  <ul>
+    <li><b>구글 계정</b> 하나 (Gmail 있으면 됨) — 무료 키 사이트 로그인·Gemini 로그인에 씀</li>
+    <li>인터넷 되는 <b>윈도우 PC</b> 또는 <b>맥</b></li>
+    <li>돈 안 듭니다.</li>
+  </ul>
 
-  <h2>③ 환경변수에 키 넣기</h2>
-  <h3>macOS / Linux</h3>
-  <pre><code>export OPENROUTER_API_KEY="sk-or-v1-복사한키"
-export GROQ_API_KEY="gsk_복사한키"
-
-# 매번 자동 적용하려면 셸 설정파일에 추가:
-echo 'export OPENROUTER_API_KEY="sk-or-v1-복사한키"' >> ~/.bashrc   # zsh면 ~/.zshrc
-echo 'export GROQ_API_KEY="gsk_복사한키"'          >> ~/.bashrc</code></pre>
-  <h3>Windows (PowerShell)</h3>
-  <pre><code>setx OPENROUTER_API_KEY "sk-or-v1-복사한키"
-setx GROQ_API_KEY "gsk_복사한키"
-# setx 는 "새로" 여는 터미널부터 적용됩니다 → 창을 닫고 다시 여세요.</code></pre>
-
-  <h2>④ 메인 Gemini 로그인 <span class="tag oauth">키 불필요</span></h2>
+  <h2 id="term">2. "터미널" 여는 법</h2>
+  <p>터미널 = 컴퓨터에 글자로 명령을 내리는 창입니다. 여기다 아래 명령들을 <b>복사-붙여넣기</b>합니다.</p>
   <div class="card">
-    <p><code>free-gjc</code> 를 실행한 뒤 아래 중 하나를 입력해 본인 구글 계정으로 로그인합니다.</p>
-    <table>
-      <tr><th>상황</th><th>명령</th></tr>
-      <tr><td>Google AI 구독이 있음</td><td><code>/login google-antigravity</code></td></tr>
-      <tr><td>무료로 쓰고 싶음</td><td><code>/login google-gemini-cli</code></td></tr>
-    </table>
-    <p class="warn">무료(<code>google-gemini-cli</code>)로 쓸 땐 <code>~/.gjc-free/agent/config.yml</code> 의 <code>default</code> 한 줄을
-    <code>google-gemini-cli/gemini-2.5-pro</code> 로 바꾸세요.</p>
+    <div class="os">🪟 윈도우</div>
+    <ol>
+      <li>키보드 <kbd>⊞ 윈도우</kbd> 키를 누릅니다.</li>
+      <li><code>터미널</code> 이라고 칩니다. (안 뜨면 <code>powershell</code>)</li>
+      <li><b>Windows Terminal</b> 또는 <b>Windows PowerShell</b> 클릭 → 창이 뜹니다.</li>
+    </ol>
+    <div class="os">🍎 맥</div>
+    <ol>
+      <li><kbd>⌘</kbd> + <kbd>스페이스</kbd> 를 동시에 → 검색창.</li>
+      <li><code>터미널</code> 또는 <code>terminal</code> 입력.</li>
+      <li><b>터미널(Terminal)</b> 클릭.</li>
+    </ol>
   </div>
-
-  <h2>⑤ 확인</h2>
-  <pre><code>free-gjc config get modelRoles      # 역할별 모델이 찍히면 세팅 OK
-free-gjc -p --no-session "누구니?"   # 실제 응답이 오면 키/로그인 OK</code></pre>
-
   <div class="warn">
-    <b>모델 이름이 안 먹힐 때</b> — 무료 모델 슬러그는 자주 바뀝니다. 유효한 id를 확인해
-    <code>~/.gjc-free/agent/</code> 의 <code>models.yml</code>/<code>config.yml</code> 에 바꿔 넣으세요.<br>
-    · OpenRouter 무료 목록: <a href="https://openrouter.ai/models?q=free" target="_blank" rel="noopener">openrouter.ai/models?q=free</a><br>
-    · Groq 모델 목록: <a href="https://console.groq.com/docs/models" target="_blank" rel="noopener">console.groq.com/docs/models</a>
+    <b>복사-붙여넣기 & 실행</b> — 아래 상자 명령을 복사(<kbd>Ctrl</kbd>+<kbd>C</kbd>, 맥 <kbd>⌘</kbd>+<kbd>C</kbd>) →
+    터미널에 붙여넣기(윈도우: <b>마우스 오른쪽 클릭</b>, 맥: <kbd>⌘</kbd>+<kbd>V</kbd>) → <kbd>Enter</kbd> 를 눌러야 실행됩니다.
   </div>
+
+  <h2 id="install">3. gjc 설치</h2>
+  <div class="os">🪟 윈도우 (PowerShell)</div>
+  <pre><code>irm bun.sh/install.ps1 | iex</code></pre>
+  <p>👉 끝나면 <b>창을 닫고 터미널을 새로 여세요.</b> 그다음:</p>
+  <pre><code>bun install -g gajae-code</code></pre>
+  <div class="os">🍎 맥 / 리눅스</div>
+  <pre><code>curl -fsSL https://bun.sh/install | bash</code></pre>
+  <p>👉 끝나면 <b>터미널을 새로 여세요.</b> 그다음:</p>
+  <pre><code>bun install -g gajae-code</code></pre>
+  <div class="ok"><b>확인:</b> <code>gjc --version</code> 을 치고 버전 숫자가 나오면 성공.
+  <br>❔ <code>command not found</code> / <code>인식할 수 없습니다</code> → 터미널을 완전히 닫고 다시 여세요.</div>
+
+  <h2 id="setup">4. 이 무료 세팅 설치</h2>
+  <div class="os">🪟 윈도우</div>
+  <pre><code>git clone https://github.com/yazzang-homelab/free-gjc-starter.git
+cd free-gjc-starter
+.\install.ps1</code></pre>
+  <div class="os">🍎 맥 / 리눅스</div>
+  <pre><code>git clone https://github.com/yazzang-homelab/free-gjc-starter.git
+cd free-gjc-starter
+bash install.sh</code></pre>
+  <p class="muted">❔ <code>git ... 없음</code> → 윈도우는 <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a>에서 설치, 맥은 <code>xcode-select --install</code> 후 다시 시도.</p>
+
+  <h2 id="keys">5. 무료 API 키 발급</h2>
+  <p>일꾼 AI가 쓸 <b>무료 열쇠</b>를 받습니다. 카드 등록 필요 없어요. 각 사이트에서 <b>구글 로그인 → Create Key → 이름 입력 → 만들기 → 키 복사</b>.</p>
+  <table>
+    <tr><th>사이트</th><th>발급 링크</th><th>키 형태</th><th>언제 필요?</th></tr>
+    <tr><td>OpenRouter</td><td><a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a></td><td><code>sk-or-v1-...</code></td><td><b>항상</b> (A·B 공통)</td></tr>
+    <tr><td>Groq</td><td><a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a></td><td><code>gsk_...</code></td><td><b>항상</b> (A·B 공통)</td></tr>
+    <tr><td>NVIDIA NIM</td><td><a href="https://build.nvidia.com/z-ai/glm-5.2" target="_blank" rel="noopener">build.nvidia.com</a> → <b>Get API Key</b></td><td><code>nvapi-...</code></td><td>방식 <b>B</b> 필수 / 방식 A는 선택(안정성↑)</td></tr>
+  </table>
+  <div class="warn">키는 <b>생성 직후 한 번만</b> 보이는 경우가 많습니다. 바로 복사해서 다음 단계로 가세요.</div>
+
+  <h2 id="env">6. 키를 컴퓨터에 넣기</h2>
+  <p><code>여기에_키</code> 부분만 <b>방금 복사한 진짜 키</b>로 바꿔서 붙여넣으세요. (안 쓰는 키 줄은 빼도 됩니다)</p>
+  <div class="os">🪟 윈도우 (PowerShell)</div>
+  <pre><code>setx OPENROUTER_API_KEY "여기에_키"
+setx GROQ_API_KEY "여기에_키"
+setx NVIDIA_API_KEY "여기에_키"</code></pre>
+  <p>👉 그리고 <b>터미널을 닫고 새로 여세요.</b> (setx는 새 창부터 적용)</p>
+  <div class="os">🍎 맥 / 리눅스</div>
+  <pre><code>echo 'export OPENROUTER_API_KEY="여기에_키"' >> ~/.zshrc
+echo 'export GROQ_API_KEY="여기에_키"'       >> ~/.zshrc
+echo 'export NVIDIA_API_KEY="여기에_키"'     >> ~/.zshrc
+source ~/.zshrc</code></pre>
+  <p class="muted">(오래된 셸이면 <code>~/.zshrc</code> → <code>~/.bashrc</code> 로 바꿔 쓰세요.)</p>
+
+  <h2 id="main">7. 메인 두뇌 정하기</h2>
+
+  <h3><span class="pill pA">방식 A</span> Gemini를 메인으로 (로그인만)</h3>
+  <div class="card">
+    터미널에 <code>free-gjc</code> 입력 → gjc가 뜨면 아래 중 <b>하나</b>를 입력하고 <kbd>Enter</kbd> → 브라우저에서 <b>본인 구글 계정 로그인</b>.
+    <table>
+      <tr><th>상황</th><th>입력할 명령</th></tr>
+      <tr><td>Google AI 구독 있음</td><td><code>/login google-antigravity</code></td></tr>
+      <tr><td>구독 없음(무료로)</td><td><code>/login google-gemini-cli</code></td></tr>
+    </table>
+    <div class="warn">무료(<code>google-gemini-cli</code>)로 쓸 거면 설정 파일의 메인 모델 한 줄만 바꿉니다.<br>
+    파일: <code>~/.gjc-free/agent/config.yml</code> (윈도우는 <code>%USERPROFILE%\.gjc-free\agent\config.yml</code>) — 메모장/텍스트편집기로 열어서:
+    <pre><code>modelRoles:
+  default: google-gemini-cli/gemini-2.5-pro   # 이 줄만 이렇게</code></pre></div>
+  </div>
+
+  <h3><span class="pill pB">방식 B</span> Gemini 없이 NVIDIA GLM-5.2를 메인으로</h3>
+  <div class="card">
+    로그인 필요 없습니다. NVIDIA 키(5번에서 발급)만 있으면 됩니다. 설정 파일의 메인 모델 줄을 GLM으로 바꾸세요.<br>
+    파일 <code>~/.gjc-free/agent/config.yml</code> 을 열어 <code>default:</code> 줄을:
+    <pre><code>modelRoles:
+  default: nvidia-nim/z-ai/glm-5.2   # 메인 = 무료 GLM-5.2</code></pre>
+    <span class="muted">폴백 순서(Gemini→GLM)는 이미 들어있으니 default 한 줄만 바꾸면 끝입니다.</span>
+  </div>
+
+  <h2 id="verify">8. 확인 & 첫 대화</h2>
+  <pre><code>free-gjc config get modelRoles       # 역할별 모델이 찍히면 설정 OK
+free-gjc -p --no-session "안녕? 넌 누구야?"</code></pre>
+  <div class="ok">AI가 대답하면 <b>성공!</b> 🎉 이제 이렇게 씁니다:
+  <pre><code>free-gjc                              # 대화형으로 켜기
+free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</code></pre>
+  평소 쓰던 <code>gjc</code>(다른 프로필)와 완전히 따로 돌아가니 안심하세요.</div>
+
+  <h2 id="trouble">문제 해결</h2>
+  <table>
+    <tr><th>증상</th><th>해결</th></tr>
+    <tr><td><code>command not found</code> / <code>인식할 수 없습니다</code></td><td>터미널을 <b>완전히 닫고 새로</b> 열기. 안 되면 3번 설치 재실행.</td></tr>
+    <tr><td><code>git ... 없음</code></td><td>4번 아래 안내대로 Git 먼저 설치.</td></tr>
+    <tr><td><code>No API key</code> / <code>401</code> / <code>unauthorized</code></td><td>그 provider 키를 6번대로 다시 넣고 <b>터미널 새로</b> 열기. 키 오타·잘못 복사 확인.</td></tr>
+    <tr><td><code>no match</code> / 모델 못 찾음</td><td>무료 모델 이름이 바뀐 것. 유효한 id를 찾아 <code>~/.gjc-free/agent/</code> 의 <code>models.yml</code>·<code>config.yml</code> 수정.<br>OpenRouter <a href="https://openrouter.ai/models?q=free" target="_blank" rel="noopener">무료 목록</a> · Groq <a href="https://console.groq.com/docs/models" target="_blank" rel="noopener">모델</a> · NVIDIA <a href="https://build.nvidia.com/models" target="_blank" rel="noopener">모델</a></td></tr>
+    <tr><td>Gemini 로그인 창이 안 열림</td><td>터미널에 표시된 주소를 복사해 브라우저 주소창에 직접 붙여넣기.</td></tr>
+  </table>
+
+  <div class="ok">
+    <b>안심하세요</b> — 이 repo·이 페이지 어디에도 API 키·개인정보가 없습니다. 키는 당신 PC에만 저장됩니다.
+    남과 공유할 땐 이 repo 주소만 주면 되고, 기존 <code>gjc</code> 설정은 건드리지 않습니다(<code>~/.gjc-free</code>에만 설치).
+  </div>
+
+  <h2>참고: 무엇을 쓰나</h2>
+  <table>
+    <tr><th>역할</th><th>모델</th><th>조달</th></tr>
+    <tr><td>메인(default)</td><td>Gemini <span class="muted">(방식 A)</span> / GLM-5.2 <span class="muted">(방식 B)</span></td><td>로그인 또는 NVIDIA 키</td></tr>
+    <tr><td>executor·architect</td><td>Nemotron 3 Super 120B <span class="tag free">무료</span></td><td>OpenRouter 키</td></tr>
+    <tr><td>planner</td><td>Llama 3.3 70B <span class="tag free">무료</span></td><td>Groq 키</td></tr>
+    <tr><td>critic</td><td>Llama 3.1 8B Instant <span class="tag free">무료</span></td><td>Groq 키</td></tr>
+  </table>
+  <p class="muted">무료 모델이 멈추면 다른 무료 → 마지막엔 GLM-5.2로 자동 전환됩니다. 메인은 Gemini 1순위 → GLM-5.2 2순위.</p>
 
   <footer>
-    free-gjc-starter · <a href="https://github.com/yazzang-homelab/free-gjc-starter" target="_blank" rel="noopener">GitHub</a><br>
+    free-gjc-starter · <a href="https://github.com/yazzang-homelab/free-gjc-starter" target="_blank" rel="noopener">GitHub</a> ·
     이 문서와 repo에는 API 키·개인정보가 하나도 없습니다. 키는 각자 본인 환경변수에만 보관하세요.
   </footer>
 
