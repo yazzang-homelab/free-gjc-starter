@@ -7,6 +7,13 @@
 # config.yml / models.yml / sessions / auth db — isolated from your default profile.
 set -euo pipefail
 export GJC_CONFIG_DIR="${GJC_FREE_DIR:-.gjc-free}"
+# Free-tier upstreams (Gemini CLI free, OpenRouter :free, Groq, NIM) can take well
+# over gjc's default 100s to emit the first token — reasoning models + queueing.
+# free-gjc is for latency-tolerant work, so widen the stream watchdogs:
+# first event 10min, idle 5min (gjc defaults: 100s / 120s). Override by exporting
+# your own values before calling free-gjc.
+export PI_STREAM_FIRST_EVENT_TIMEOUT_MS="${PI_STREAM_FIRST_EVENT_TIMEOUT_MS:-600000}"
+export PI_STREAM_IDLE_TIMEOUT_MS="${PI_STREAM_IDLE_TIMEOUT_MS:-300000}"
 # Scrub any inherited ANTHROPIC_* so this free profile never touches a paid Anthropic key.
 while IFS='=' read -r _n _; do
   case "$_n" in ANTHROPIC_*) unset "$_n" || true ;; esac

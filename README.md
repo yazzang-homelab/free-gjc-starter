@@ -193,6 +193,7 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 | `모델을 찾을 수 없음` / `no match` | 무료 모델 이름이 바뀐 겁니다. 아래 링크에서 유효한 이름을 찾아 `~/.gjc-free/agent/` 안의 `models.yml`·`config.yml`을 고치세요.<br>OpenRouter: <https://openrouter.ai/models?q=free> · Groq: <https://console.groq.com/docs/models> |
 | Gemini 로그인 브라우저가 안 열림 | 터미널에 뜬 주소(링크)를 복사해 직접 브라우저 주소창에 붙여넣으세요. |
 | `GOOGLE_CLOUD_PROJECT ... 환경변수를 설정해야` / `requires setting the GOOGLE_CLOUD_PROJECT` | **브라우저에 구글 계정을 여러 개 로그인해 두면** 로그인 창이 엉뚱한 회사/조직(Workspace) 계정으로 인증돼서 나는 오류입니다(개인 계정으로 로그인해도 발생). 해결: **시크릿/인프라이빗 창**을 새로 열고 **개인 지메일 1개만** 로그인한 상태에서, 터미널에 뜬 로그인 주소를 그 창에 붙여넣으세요. (또는 브라우저에서 회사/조직 계정을 전부 로그아웃하고 개인 계정만 남긴 뒤 재시도.) 그래도 안 되면 방식 B(NVIDIA GLM-5.2)로 쓰세요. |
+| **`Provider stream timed out while waiting for the first event`** / `... stalled while waiting for the next event` | 무료 티어 모델이 **첫 토큰을 늦게 뱉어서**(추론 모델 + 대기열 + 긴 대화) gjc의 스트림 감시 타이머에 걸린 겁니다. 최신 `free-gjc` 런처는 이 타이머를 넉넉하게(첫 응답 10분 / 유휴 5분) 잡아두니 **repo를 `git pull` 후 3번 설치를 다시 실행**하세요. 그래도 나면 대화가 너무 길어진 것 — `/compact` 로 컨텍스트를 줄이거나 새 세션으로 시작하세요. |
 
 > 🗨️ **혼자 해결 안 되면** — 오픈카톡으로 물어보세요: **<https://open.kakao.com/o/pW7JOXDi>**
 > (이 세팅 올린 사람이 직접 답변합니다. gjc 원작자와는 무관해요 ㅎㅎ)
