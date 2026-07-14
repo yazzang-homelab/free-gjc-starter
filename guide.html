@@ -66,7 +66,7 @@
       <a href="#keys">5. 무료 API 키 발급</a>
       <a href="#env">6. 키를 컴퓨터에 넣기</a>
       <a href="#main">7. 메인 두뇌 정하기 (A/B)</a>
-      <a href="#verify">8. 확인 & 첫 대화</a>
+      <a href="#verify">8. 확인 &amp; 첫 대화</a>
       <a href="#trouble">문제 해결</a>
     </div>
   </div>
@@ -121,7 +121,7 @@
     </ol>
   </div>
   <div class="warn">
-    <b>복사-붙여넣기 & 실행</b> — 아래 상자 명령을 복사(<kbd>Ctrl</kbd>+<kbd>C</kbd>, 맥 <kbd>⌘</kbd>+<kbd>C</kbd>) →
+    <b>복사-붙여넣기 &amp; 실행</b> — 아래 상자 명령을 복사(<kbd>Ctrl</kbd>+<kbd>C</kbd>, 맥 <kbd>⌘</kbd>+<kbd>C</kbd>) →
     터미널에 붙여넣기(윈도우: <b>마우스 오른쪽 클릭</b>, 맥: <kbd>⌘</kbd>+<kbd>V</kbd>) → <kbd>Enter</kbd> 를 눌러야 실행됩니다.
   </div>
 
@@ -197,7 +197,7 @@ source ~/.zshrc</code></pre>
     <span class="muted">폴백 순서(Gemini→GLM)는 이미 들어있으니 default 한 줄만 바꾸면 끝입니다.</span>
   </div>
 
-  <h2 id="verify">8. 확인 & 첫 대화</h2>
+  <h2 id="verify">8. 확인 &amp; 첫 대화</h2>
   <pre><code>free-gjc config get modelRoles       # 역할별 모델이 찍히면 설정 OK
 free-gjc -p --no-session "안녕? 넌 누구야?"</code></pre>
   <div class="ok">AI가 대답하면 <b>성공!</b> 🎉 이제 이렇게 씁니다:
@@ -214,6 +214,8 @@ free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</cod
     <tr><td><code>no match</code> / 모델 못 찾음</td><td>무료 모델 이름이 바뀐 것. 유효한 id를 찾아 <code>~/.gjc-free/agent/</code> 의 <code>models.yml</code>·<code>config.yml</code> 수정.<br>OpenRouter <a href="https://openrouter.ai/models?q=free" target="_blank" rel="noopener">무료 목록</a> · Groq <a href="https://console.groq.com/docs/models" target="_blank" rel="noopener">모델</a> · NVIDIA <a href="https://build.nvidia.com/models" target="_blank" rel="noopener">모델</a></td></tr>
     <tr><td>Gemini 로그인 창이 안 열림</td><td>터미널에 표시된 주소를 복사해 브라우저 주소창에 직접 붙여넣기.</td></tr>
   </table>
+  <div class="warn">🗨️ <b>혼자 해결 안 되면</b> — AI 도우미 오픈카톡에서 물어보세요:
+  <a href="https://open.kakao.com/o/pW7JOXDi" target="_blank" rel="noopener">open.kakao.com/o/pW7JOXDi</a> (에이전트 AI가 설치·설정을 도와줍니다)</div>
 
   <div class="ok">
     <b>안심하세요</b> — 이 repo·이 페이지 어디에도 API 키·개인정보가 없습니다. 키는 당신 PC에만 저장됩니다.
