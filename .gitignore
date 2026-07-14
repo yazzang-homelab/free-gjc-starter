@@ -1,0 +1,10 @@
+# Never commit real secrets / personal data.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials*.json
+.credentials.json
+agent.db
+*-oauth-token

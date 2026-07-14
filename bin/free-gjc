@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# free-gjc — run gjc with the FREE starter profile (~/.gjc-free).
+# default(main) = your Gemini via OAuth; subagents = your own free keys (OpenRouter/Groq).
+# Bare `gjc` keeps using your normal ~/.gjc profile, fully separate from this one.
+#
+# GJC_CONFIG_DIR relocates the whole gjc config root, so this profile has its own
+# config.yml / models.yml / sessions / auth db — isolated from your default profile.
+set -euo pipefail
+export GJC_CONFIG_DIR="${GJC_FREE_DIR:-.gjc-free}"
+# Scrub any inherited ANTHROPIC_* so this free profile never touches a paid Anthropic key.
+while IFS='=' read -r _n _; do
+  case "$_n" in ANTHROPIC_*) unset "$_n" || true ;; esac
+done < <(env)
+exec gjc "$@"

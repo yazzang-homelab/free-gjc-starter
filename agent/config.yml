@@ -1,0 +1,26 @@
+lastChangelogVersion: 0.10.1
+# free-gjc-starter FREE 프로필 (free-gjc, GJC_CONFIG_DIR=.gjc-free).
+# default(메인) = Gemini(OAuth). 나머지 4개 역할(서브에이전트) = 무료 모델.
+# 내장 유료 OpenRouter는 실수 방지용으로 비활성화(우리는 커스텀 openrouter-free만 사용).
+disabledProviders:
+  - openrouter
+modelRoles:
+  default:   google-antigravity/gemini-3.1-pro-low:high
+  executor:  openrouter-free/nvidia/nemotron-3-super-120b-a12b:free
+  architect: openrouter-free/nvidia/nemotron-3-super-120b-a12b:free
+  planner:   groq-free/llama-3.3-70b-versatile
+  critic:    groq-free/llama-3.1-8b-instant
+retry:
+  # 무료 모델이 죽으면 다른 무료 → 마지막엔 메인 Gemini로 안전하게 폴백.
+  fallbackChains:
+    openrouter-free/nvidia/nemotron-3-super-120b-a12b:free:
+      - groq-free/llama-3.3-70b-versatile
+      - google-antigravity/gemini-3.1-pro-low:high
+    groq-free/llama-3.3-70b-versatile:
+      - openrouter-free/nvidia/nemotron-3-super-120b-a12b:free
+      - google-antigravity/gemini-3.1-pro-low:high
+    groq-free/llama-3.1-8b-instant:
+      - groq-free/llama-3.3-70b-versatile
+      - google-antigravity/gemini-3.1-pro-low:high
+theme:
+  dark: opencode
