@@ -230,10 +230,18 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 이 가이드가 도움이 됐다면 **커피 한잔** 부탁드립니다 ㅎㅎ
 
 <p align="center">
-  <a href="https://emulog.app/donate.html">
-    <img src="assets/gajae-character.png" alt="커피 한잔 후원하기" width="120"><br>
-    <b>☕ 커피 한잔 후원하기</b>
-  </a>
+  <a href="https://emulog.app/donate.html"><b>☕ 커피 한잔 후원하기</b></a>
 </p>
 
 > 후원은 emulog.app 후원 페이지로 연결됩니다. (이 repo에는 계좌·결제 정보가 저장돼 있지 않습니다.)
+
+---
+
+## 🦞 원작 gjc (gajae-code)
+
+이 세팅은 **gajae-code(gjc)** 위에서 동작합니다. gjc 본체·가재 캐릭터의 원작자와 프로젝트:
+
+- 원작 프로젝트: **<https://github.com/Yeachan-Heo/gajae-code>**
+- 원작자: **[@Yeachan-Heo](https://github.com/Yeachan-Heo)**
+
+> 이 repo는 gjc를 무료로 쉽게 쓰기 위한 **비공식 초보자 세팅**일 뿐이며, gjc 본체는 위 원작 프로젝트의 것입니다. 가재 이미지도 원작 저장소의 에셋입니다.
