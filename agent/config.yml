@@ -1,11 +1,11 @@
 lastChangelogVersion: 0.10.1
 # free-gjc-starter FREE 프로필 (free-gjc, GJC_CONFIG_DIR=.gjc-free).
-# default(메인) = 무료 Gemini(google-gemini-cli, 아무 구글 계정 OAuth). 서브에이전트 = 무료 모델.
+# default(메인) = 무료 Gemini(google-antigravity/gemini-3.1-pro, 개인 Gmail OAuth 무료티어). 서브에이전트 = 무료 모델.
 # 내장 유료 OpenRouter는 실수 방지용으로 비활성화(우리는 커스텀 openrouter-free만 사용).
 disabledProviders:
   - openrouter
 modelRoles:
-  default:   google-gemini-cli/gemini-2.5-pro
+  default:   google-antigravity/gemini-3.1-pro-low:high
   executor:  openrouter-free/nvidia/nemotron-3-super-120b-a12b:free
   architect: openrouter-free/nvidia/nemotron-3-super-120b-a12b:free
   planner:   groq-free/llama-3.3-70b-versatile
@@ -14,8 +14,8 @@ retry:
   # 메인(default)은 Gemini(1순위) → NVIDIA NIM GLM-5.2(2순위)로 폴백.
   # 서브에이전트 무료 모델이 죽으면 다른 무료 → 마지막엔 GLM-5.2로 안전하게 폴백.
   fallbackChains:
-    # 메인 두뇌: 무료 Gemini(gemini-cli) 1st, GLM-5.2 2nd
-    google-gemini-cli/gemini-2.5-pro:
+    # 메인 두뇌: 무료 Gemini(antigravity gemini-3.1-pro) 1st, GLM-5.2 2nd
+    google-antigravity/gemini-3.1-pro-low:high:
       - nvidia-nim/z-ai/glm-5.2
     openrouter-free/nvidia/nemotron-3-super-120b-a12b:free:
       - groq-free/llama-3.3-70b-versatile

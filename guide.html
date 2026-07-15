@@ -84,7 +84,7 @@
       구글 계정으로 <b>로그인만</b> 하면 됩니다. 카드 등록 X.
       <ul>
         <li>Google AI 구독 있음 → 그대로 사용</li>
-        <li>구독 없음 → <b>Gemini CLI 무료 티어</b>로도 됩니다</li>
+        <li>구독 없음 → <b>Antigravity 무료 티어</b>(개인 Gmail, 카드 X)로도 됩니다</li>
       </ul>
       <span class="muted">필요한 무료 키: OpenRouter, Groq (2개)</span>
     </div>
@@ -178,12 +178,12 @@ source ~/.zshrc</code></pre>
   <h3><span class="pill pA">방식 A</span> Gemini를 메인으로 (로그인만)</h3>
   <div class="card">
     터미널에 <code>free-gjc</code> 입력 → gjc가 뜨면 <b>본인 구글 계정으로 로그인</b>:
-    <pre><code>/login google-gemini-cli</code></pre>
-    <b>기본값이 이미 무료 Gemini(<code>google-gemini-cli/gemini-2.5-pro</code>)라 위 로그인만 하면 바로 됩니다.</b> (설정 수정 불필요)
+    <pre><code>/login google-antigravity</code></pre>
+    <b>기본값이 이미 무료 Gemini(<code>google-antigravity/gemini-3.1-pro-low:high</code>)라 위 로그인만 하면 바로 됩니다.</b> (설정 수정 불필요)
     <div class="warn">⚠️ <b>로그인 전에</b> — 브라우저에 구글 계정을 <b>여러 개</b>(개인+회사/학교) 로그인해 두면 엉뚱한 조직(Workspace) 계정으로 인증돼 <code>GOOGLE_CLOUD_PROJECT ...</code> 오류가 납니다. <b>시크릿(인프라이빗) 창</b>에서 개인 지메일 1개만 로그인한 채로 진행하세요.</div>
-    <div class="warn">⚠️ <b><code>google-antigravity</code>는 쓰지 마세요.</b> Antigravity는 별도 접근권/구독이 있어야 하고, 없으면 로그인돼도 실행 시
-    <b>404 (Requested entity was not found)</b> 가 납니다. Opus 등 Anthropic 모델도 Antigravity 전용이라 동일.
-    Antigravity 접근권이 <b>확실히 있는</b> 사람만 <code>/login google-antigravity</code> 후 default를 <code>google-antigravity/gemini-3.1-pro-low:high</code> 로 바꾸세요.</div>
+    <div class="ok">✅ <b>무료로 됩니다.</b> Google이 2026-06-18 옛 Gemini CLI 무료(Code Assist for individuals)를 종료하며 무료 사용자를 <b>Antigravity 무료티어</b>로 이전했습니다. 개인 Gmail이면 카드 없이 <b>Gemini 3.1 Pro</b>가 무료(공식 public preview)로 돌아갑니다.</div>
+    <div class="warn">🪫 <b>무료티어 할당량 주의.</b> preview라 하루 요청 수(대략 20/day 수준)·몇 시간 단위 리셋·주간 상한이 있어 많이 쓰면 <code>429</code>가 납니다 → 잠시 뒤 재시도 또는 방식 B(GLM-5.2). 무료는 preview라 영구 보장은 아닙니다.<br>
+    ℹ️ Antigravity에서 <b>Opus 등 Anthropic/Claude 모델은 유료 전용</b> → 무료 계정이 고르면 <b>404</b>. 무료는 기본값 <b>Gemini 3.1 Pro</b>만. (옛 <code>/login google-gemini-cli</code> 무료 경로는 종료됨)</div>
   </div>
 
   <h3><span class="pill pB">방식 B</span> Gemini 없이 NVIDIA GLM-5.2를 메인으로</h3>
@@ -209,7 +209,8 @@ free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</cod
     <tr><td><code>command not found</code> / <code>인식할 수 없습니다</code></td><td>터미널을 <b>완전히 닫고 새로</b> 열기. 안 되면 3번 설치 재실행.</td></tr>
     <tr><td><code>git ... 없음</code></td><td>4번 아래 안내대로 Git 먼저 설치.</td></tr>
     <tr><td><code>No API key</code> / <code>401</code> / <code>unauthorized</code></td><td>그 provider 키를 6번대로 다시 넣고 <b>터미널 새로</b> 열기. 키 오타·잘못 복사 확인.</td></tr>
-    <tr><td><code>Cloud Code Assist API error (404)</code> / <code>Requested entity was not found</code></td><td>로그인은 됐지만 <b>그 모델이 계정에 없음.</b> 대개 <code>google-antigravity</code>(구독/접근권 필요)로 로그인했거나 Opus 등 Antigravity 전용 모델을 고른 경우.<br>→ 무료면 <code>/login google-gemini-cli</code> 로 로그인하고 <code>default</code>가 <code>google-gemini-cli/gemini-2.5-pro</code>인지 확인. 이미 antigravity로 로그인했다면 <code>free-gjc /logout</code> 후 재로그인.</td></tr>
+    <tr><td><code>Cloud Code Assist API error (404)</code> / <code>Requested entity was not found</code></td><td>로그인은 됐지만 <b>그 모델이 계정 등급에 없음.</b> 무료 계정에서 <b>Opus 등 Anthropic/Claude(Antigravity 유료 전용) 모델</b>을 고른 경우가 대표적.<br>→ 무료는 <code>default</code>를 <code>google-antigravity/gemini-3.1-pro-low:high</code>(이 세팅 기본값)로 두면 됨. 계정 잘못 로그인 시 <code>free-gjc /logout</code> 후 개인 Gmail로 재로그인.</td></tr>
+    <tr><td>AI가 <code>429</code> / <code>quota</code> / <code>RESOURCE_EXHAUSTED</code></td><td>Antigravity 무료티어 할당량 소진(하루 요청 수·주간 상한, 몇 시간 뒤 리셋). 잠시 뒤 재시도 또는 방식 B(GLM-5.2) 전환.</td></tr>
     <tr><td><code>no match</code> / 모델 못 찾음</td><td>무료 모델 이름이 바뀐 것. 유효한 id를 찾아 <code>~/.gjc-free/agent/</code> 의 <code>models.yml</code>·<code>config.yml</code> 수정.<br>OpenRouter <a href="https://openrouter.ai/models?q=free" target="_blank" rel="noopener">무료 목록</a> · Groq <a href="https://console.groq.com/docs/models" target="_blank" rel="noopener">모델</a> · NVIDIA <a href="https://build.nvidia.com/models" target="_blank" rel="noopener">모델</a></td></tr>
     <tr><td>Gemini 로그인 창이 안 열림</td><td>터미널에 표시된 주소를 복사해 브라우저 주소창에 직접 붙여넣기.</td></tr>
     <tr><td><code>Provider stream timed out while waiting for the first event</code> / <code>stalled while waiting for the next event</code></td><td>무료 티어 모델이 <b>첫 토큰을 늦게 뱉어서</b>(추론 모델 + 대기열 + 긴 대화) gjc의 스트림 감시 타이머(기본 100초)에 걸린 것. 최신 <code>free-gjc</code> 런처는 타이머를 넉넉하게(첫 응답 10분/유휴 5분) 잡아두니 <b>repo를 <code>git pull</code> 후 설치 재실행</b>. 그래도 나면 대화가 너무 긴 것 — <code>/compact</code>로 줄이거나 새 세션 시작.</td></tr>

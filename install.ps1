@@ -26,5 +26,5 @@ Write-Host "설치 완료. FREE 프로필 -> ~/.gjc-free, 런처 -> free-gjc.cmd
 Write-Host "다음 3가지를 본인 것으로 채우면 끝:"
 Write-Host '  1) setx OPENROUTER_API_KEY "본인키"   (https://openrouter.ai/keys)'
 Write-Host '     setx GROQ_API_KEY "본인키"          (https://console.groq.com/keys)'
-Write-Host "  2) free-gjc  실행 후  /login google-antigravity  (구독) 또는 /login google-gemini-cli (무료)"
+Write-Host "  2) free-gjc  실행 후  /login google-antigravity  (개인 Gmail = 무료 Gemini 3.1 Pro 티어; 할당량 빡세면 429 -> 잠시 뒤/GLM-5.2)"
 Write-Host '  3) free-gjc -p --no-session "누구니?"'

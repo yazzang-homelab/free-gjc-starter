@@ -30,9 +30,10 @@ cat <<EOF
   1) 무료 서브에이전트 키 (본인 발급, 셸 환경변수):
        export OPENROUTER_API_KEY=...   # https://openrouter.ai/keys
        export GROQ_API_KEY=...         # https://console.groq.com/keys
-  2) 메인 Gemini 로그인 (본인 계정):
-       free-gjc            # 실행 후  /login google-antigravity   (구독)
-                           #   또는   /login google-gemini-cli    (무료 티어)
+  2) 메인 Gemini 로그인 (본인 구글 계정):
+       free-gjc            # 실행 후  /login google-antigravity
+                           #   무료: 개인 Gmail이면 카드 없이 Gemini 3.1 Pro 무료티어(preview).
+                           #   할당량 빡세니 429 나면 잠시 뒤 또는 NVIDIA GLM-5.2로.
   3) 확인:
        free-gjc config get modelRoles
        free-gjc -p --no-session "누구니?"

@@ -64,5 +64,6 @@ providers:
         cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }
 
   # 메인 루프(default)는 gjc 내장 google provider를 OAuth 로그인으로 쓴다 → 여기 항목 불필요.
-  #   구독(Google AI/Antigravity): /login google-antigravity
-  #   무료(Gemini CLI, 구글 계정):  /login google-gemini-cli  (README에서 default 셀렉터만 교체)
+  #   무료: /login google-antigravity  (개인 Gmail, 카드 X). default는 이미 google-antigravity/gemini-3.1-pro-low:high.
+  #   ※ 무료티어는 Gemini 3.1 Pro만. Opus 등 Claude는 유료 → 무료계정이 고르면 404.
+  #   ※ 옛 /login google-gemini-cli 무료(Code Assist for individuals)는 2026-06-18 종료.

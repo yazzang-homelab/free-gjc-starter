@@ -80,9 +80,9 @@ echo 'export NVIDIA_API_KEY="여기에_키"'     &gt;&gt; ~/.zshrc
 source ~/.zshrc</pre>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">7. 메인 두뇌 정하기</h3>
-<p><b>[방식 A] Gemini(무료)</b> — <code style="background:#eee;padding:1px 5px;border-radius:4px;">free-gjc</code> 실행 후 <code style="background:#eee;padding:1px 5px;border-radius:4px;">/login google-gemini-cli</code>. <b>기본값이 이미 <code style="background:#eee;padding:1px 5px;border-radius:4px;">google-gemini-cli/gemini-2.5-pro</code>라 로그인만 하면 됨.</b></p>
+<p><b>[방식 A] Gemini(무료)</b> — <code style="background:#eee;padding:1px 5px;border-radius:4px;">free-gjc</code> 실행 후 <code style="background:#eee;padding:1px 5px;border-radius:4px;">/login google-antigravity</code>. <b>기본값이 이미 <code style="background:#eee;padding:1px 5px;border-radius:4px;">google-antigravity/gemini-3.1-pro-low:high</code>라 로그인만 하면 됨.</b> (구글이 2026-06-18 옛 gemini-cli 무료를 종료하고 무료 사용자를 Antigravity 무료티어로 이전 → 개인 Gmail이면 카드 X, Gemini 3.1 Pro 무료)</p>
 <p style="color:#a00;">⚠️ 로그인 전: 브라우저에 구글 계정 여러 개면 엉뚱한 회사 계정으로 인증돼 <code style="background:#eee;padding:1px 5px;border-radius:4px;">GOOGLE_CLOUD_PROJECT</code> 오류 남. <b>시크릿 창에서 개인 지메일 1개만</b> 로그인한 채로 진행하셈.</p>
-<p>⚠️ <b><code style="background:#eee;padding:1px 5px;border-radius:4px;">google-antigravity</code>는 쓰지 마셈</b> — 별도 접근권/구독 없으면 <b>404(Requested entity was not found)</b> 남. Opus 등 Anthropic 모델도 Antigravity 전용이라 동일. (Antigravity 있는 사람만 antigravity 로그인+default 교체)</p>
+<p style="color:#a00;">🪫 무료티어는 할당량 빡셈(하루 요청 수·주간 상한, preview) → 많이 쓰면 <b>429</b>. 그땐 잠깐 쉬거나 방식 B(GLM-5.2). Antigravity에서 Opus 등 Claude 모델은 유료라 무료 계정이 고르면 <b>404</b> — 무료는 Gemini 3.1 Pro만.</p>
 <p><b>[방식 B] GLM-5.2</b> — 로그인 없이 NVIDIA 키만. <code style="background:#eee;padding:1px 5px;border-radius:4px;">~/.gjc-free/agent/config.yml</code> 의 default를:</p>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">modelRoles:
   default: nvidia-nim/z-ai/glm-5.2</pre>
