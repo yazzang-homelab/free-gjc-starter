@@ -89,13 +89,13 @@
       <span class="muted">필요한 무료 키: OpenRouter, Groq (2개)</span>
     </div>
     <div class="card">
-      <span class="pill pB">방식 B</span> <b>Gemini 없이, NVIDIA GLM-5.2를 메인으로</b><br><br>
-      구글/Gemini를 아예 안 쓰고 싶을 때. NVIDIA의 무료 <b>GLM-5.2(753B)</b>를 메인으로 씁니다.
+      <span class="pill pB">방식 B</span> <b>Gemini 없이, NVIDIA GLM-5.3를 메인으로</b><br><br>
+      구글/Gemini를 아예 안 쓰고 싶을 때. NVIDIA의 무료 <b>GLM-5.3(753B)</b>를 메인으로 씁니다.
       <ul><li>로그인 대신 NVIDIA 무료 키 사용</li></ul>
       <span class="muted">필요한 무료 키: OpenRouter, Groq, NVIDIA (3개)</span>
     </div>
   </div>
-  <p class="muted">※ 방식 A로 해도 Gemini가 잠깐 막히면 자동으로 GLM-5.2로 넘어가도록 이미 설정돼 있습니다(Gemini 1순위 → GLM 2순위). 그래서 A여도 NVIDIA 키를 넣어두면 더 안정적입니다.</p>
+  <p class="muted">※ 방식 A로 해도 Gemini가 잠깐 막히면 자동으로 GLM-5.3로 넘어가도록 이미 설정돼 있습니다(Gemini 1순위 → GLM 2순위). 그래서 A여도 NVIDIA 키를 넣어두면 더 안정적입니다.</p>
 
   <h2 id="prep">1. 준비물 (5분)</h2>
   <ul>
@@ -155,7 +155,7 @@ bash install.sh</code></pre>
     <tr><th>사이트</th><th>발급 링크</th><th>키 형태</th><th>언제 필요?</th></tr>
     <tr><td>OpenRouter</td><td><a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a></td><td><code>sk-or-v1-...</code></td><td><b>항상</b> (A·B 공통)</td></tr>
     <tr><td>Groq</td><td><a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a></td><td><code>gsk_...</code></td><td><b>항상</b> (A·B 공통)</td></tr>
-    <tr><td>NVIDIA NIM</td><td><a href="https://build.nvidia.com/z-ai/glm-5.2" target="_blank" rel="noopener">build.nvidia.com</a> → <b>Get API Key</b></td><td><code>nvapi-...</code></td><td>방식 <b>B</b> 필수 / 방식 A는 선택(안정성↑)</td></tr>
+    <tr><td>NVIDIA NIM</td><td><a href="https://build.nvidia.com/z-ai/glm-5-3" target="_blank" rel="noopener">build.nvidia.com</a> → <b>Get API Key</b></td><td><code>nvapi-...</code></td><td>방식 <b>B</b> 필수 / 방식 A는 선택(안정성↑)</td></tr>
   </table>
   <div class="warn">키는 <b>생성 직후 한 번만</b> 보이는 경우가 많습니다. 바로 복사해서 다음 단계로 가세요.</div>
 
@@ -182,16 +182,16 @@ source ~/.zshrc</code></pre>
     <b>기본값이 이미 무료 Gemini(<code>google-antigravity/gemini-3.1-pro-low:high</code>)라 위 로그인만 하면 바로 됩니다.</b> (설정 수정 불필요)
     <div class="warn">⚠️ <b>로그인 전에</b> — 브라우저에 구글 계정을 <b>여러 개</b>(개인+회사/학교) 로그인해 두면 엉뚱한 조직(Workspace) 계정으로 인증돼 <code>GOOGLE_CLOUD_PROJECT ...</code> 오류가 납니다. <b>시크릿(인프라이빗) 창</b>에서 개인 지메일 1개만 로그인한 채로 진행하세요.</div>
     <div class="ok">✅ <b>무료로 됩니다.</b> Google이 2026-06-18 옛 Gemini CLI 무료(Code Assist for individuals)를 종료하며 무료 사용자를 <b>Antigravity 무료티어</b>로 이전했습니다. 개인 Gmail이면 카드 없이 <b>Gemini 3.1 Pro</b>가 무료(공식 public preview)로 돌아갑니다.</div>
-    <div class="warn">🪫 <b>무료티어 할당량 주의.</b> preview라 하루 요청 수(대략 20/day 수준)·몇 시간 단위 리셋·주간 상한이 있어 많이 쓰면 <code>429</code>가 납니다 → 잠시 뒤 재시도 또는 방식 B(GLM-5.2). 무료는 preview라 영구 보장은 아닙니다.<br>
+    <div class="warn">🪫 <b>무료티어 할당량 주의.</b> preview라 하루 요청 수(대략 20/day 수준)·몇 시간 단위 리셋·주간 상한이 있어 많이 쓰면 <code>429</code>가 납니다 → 잠시 뒤 재시도 또는 방식 B(GLM-5.3). 무료는 preview라 영구 보장은 아닙니다.<br>
     ℹ️ Antigravity에서 <b>Opus 등 Anthropic/Claude 모델은 유료 전용</b> → 무료 계정이 고르면 <b>404</b>. 무료는 기본값 <b>Gemini 3.1 Pro</b>만. (옛 <code>/login google-gemini-cli</code> 무료 경로는 종료됨)</div>
   </div>
 
-  <h3><span class="pill pB">방식 B</span> Gemini 없이 NVIDIA GLM-5.2를 메인으로</h3>
+  <h3><span class="pill pB">방식 B</span> Gemini 없이 NVIDIA GLM-5.3를 메인으로</h3>
   <div class="card">
     로그인 필요 없습니다. NVIDIA 키(5번에서 발급)만 있으면 됩니다. 설정 파일의 메인 모델 줄을 GLM으로 바꾸세요.<br>
     파일 <code>~/.gjc-free/agent/config.yml</code> 을 열어 <code>default:</code> 줄을:
     <pre><code>modelRoles:
-  default: nvidia-nim/z-ai/glm-5.2   # 메인 = 무료 GLM-5.2</code></pre>
+  default: nvidia-nim/z-ai/glm-5.3   # 메인 = 무료 GLM-5.3</code></pre>
     <span class="muted">폴백 순서(Gemini→GLM)는 이미 들어있으니 default 한 줄만 바꾸면 끝입니다.</span>
   </div>
 
@@ -210,7 +210,8 @@ free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</cod
     <tr><td><code>git ... 없음</code></td><td>4번 아래 안내대로 Git 먼저 설치.</td></tr>
     <tr><td><code>No API key</code> / <code>401</code> / <code>unauthorized</code></td><td>그 provider 키를 6번대로 다시 넣고 <b>터미널 새로</b> 열기. 키 오타·잘못 복사 확인.</td></tr>
     <tr><td><code>Cloud Code Assist API error (404)</code> / <code>Requested entity was not found</code></td><td>로그인은 됐지만 <b>그 모델이 계정 등급에 없음.</b> 무료 계정에서 <b>Opus 등 Anthropic/Claude(Antigravity 유료 전용) 모델</b>을 고른 경우가 대표적.<br>→ 무료는 <code>default</code>를 <code>google-antigravity/gemini-3.1-pro-low:high</code>(이 세팅 기본값)로 두면 됨. 계정 잘못 로그인 시 <code>free-gjc /logout</code> 후 개인 Gmail로 재로그인.</td></tr>
-    <tr><td>AI가 <code>429</code> / <code>quota</code> / <code>RESOURCE_EXHAUSTED</code></td><td>Antigravity 무료티어 할당량 소진(하루 요청 수·주간 상한, 몇 시간 뒤 리셋). 잠시 뒤 재시도 또는 방식 B(GLM-5.2) 전환.</td></tr>
+    <tr><td>AI가 <code>429</code> / <code>quota</code> / <code>RESOURCE_EXHAUSTED</code></td><td>Antigravity 무료티어 할당량 소진(하루 요청 수·주간 상한, 몇 시간 뒤 리셋). 잠시 뒤 재시도 또는 방식 B(GLM-5.3) 전환.</td></tr>
+    <tr><td><code>model_decommissioned</code> / <code>llama-3.3-70b-versatile</code>·<code>llama-3.1-8b-instant</code>·<code>z-ai/glm-5.2</code> 관련 <code>404</code>·<code>400</code></td><td><b>2026-07 이전에 설치한 사람.</b> Groq가 2026-08-16 Llama 3.x 무료 제공을 종료, NVIDIA가 2026-08-20 GLM-5.2 API를 종료했습니다. 이 세팅은 <b>GPT-OSS 120B/20B(Groq)</b>·<b>GLM-5.3(NVIDIA)</b>로 교체됨 → <b>repo를 <code>git pull</code> 후 4번 설치 재실행</b>하면 <code>~/.gjc-free/agent/</code>가 새 모델로 덮어써집니다.</td></tr>
     <tr><td><code>no match</code> / 모델 못 찾음</td><td>무료 모델 이름이 바뀐 것. 유효한 id를 찾아 <code>~/.gjc-free/agent/</code> 의 <code>models.yml</code>·<code>config.yml</code> 수정.<br>OpenRouter <a href="https://openrouter.ai/models?q=free" target="_blank" rel="noopener">무료 목록</a> · Groq <a href="https://console.groq.com/docs/models" target="_blank" rel="noopener">모델</a> · NVIDIA <a href="https://build.nvidia.com/models" target="_blank" rel="noopener">모델</a></td></tr>
     <tr><td>Gemini 로그인 창이 안 열림</td><td>터미널에 표시된 주소를 복사해 브라우저 주소창에 직접 붙여넣기.</td></tr>
     <tr><td><code>Provider stream timed out while waiting for the first event</code> / <code>stalled while waiting for the next event</code></td><td>무료 티어 모델이 <b>첫 토큰을 늦게 뱉어서</b>(추론 모델 + 대기열 + 긴 대화) gjc의 스트림 감시 타이머(기본 100초)에 걸린 것. 최신 <code>free-gjc</code> 런처는 타이머를 넉넉하게(첫 응답 10분/유휴 5분) 잡아두니 <b>repo를 <code>git pull</code> 후 설치 재실행</b>. 그래도 나면 대화가 너무 긴 것 — <code>/compact</code>로 줄이거나 새 세션 시작.</td></tr>
@@ -226,12 +227,12 @@ free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</cod
   <h2>참고: 무엇을 쓰나</h2>
   <table>
     <tr><th>역할</th><th>모델</th><th>조달</th></tr>
-    <tr><td>메인(default)</td><td>Gemini <span class="muted">(방식 A)</span> / GLM-5.2 <span class="muted">(방식 B)</span></td><td>로그인 또는 NVIDIA 키</td></tr>
+    <tr><td>메인(default)</td><td>Gemini <span class="muted">(방식 A)</span> / GLM-5.3 <span class="muted">(방식 B)</span></td><td>로그인 또는 NVIDIA 키</td></tr>
     <tr><td>executor·architect</td><td>Nemotron 3 Super 120B <span class="tag free">무료</span></td><td>OpenRouter 키</td></tr>
-    <tr><td>planner</td><td>Llama 3.3 70B <span class="tag free">무료</span></td><td>Groq 키</td></tr>
-    <tr><td>critic</td><td>Llama 3.1 8B Instant <span class="tag free">무료</span></td><td>Groq 키</td></tr>
+    <tr><td>planner</td><td>GPT-OSS 120B <span class="tag free">무료</span></td><td>Groq 키</td></tr>
+    <tr><td>critic</td><td>GPT-OSS 20B <span class="tag free">무료</span></td><td>Groq 키</td></tr>
   </table>
-  <p class="muted">무료 모델이 멈추면 다른 무료 → 마지막엔 GLM-5.2로 자동 전환됩니다. 메인은 Gemini 1순위 → GLM-5.2 2순위.</p>
+  <p class="muted">무료 모델이 멈추면 다른 무료 → 마지막엔 GLM-5.3로 자동 전환됩니다. 메인은 Gemini 1순위 → GLM-5.3 2순위.</p>
 
   <h2>☕ 후원</h2>
   <div class="card" style="text-align:center;">
@@ -255,7 +256,7 @@ free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</cod
   <footer>
     free-gjc-starter · <a href="https://github.com/yazzang-homelab/free-gjc-starter" target="_blank" rel="noopener">GitHub</a> ·
     이 문서와 repo에는 API 키·개인정보가 하나도 없습니다. 키는 각자 본인 환경변수에만 보관하세요.
-    <br><span class="muted">문서 버전: 2026-07-14c · 이 페이지에 "3. gjc 설치" 섹션이 보이면 최신본입니다.</span>
+    <br><span class="muted">문서 버전: 2026-09-22a · 이 페이지에 "GLM-5.3"·"GPT-OSS"가 보이면 최신본입니다.</span>
   </footer>
 
 </div>

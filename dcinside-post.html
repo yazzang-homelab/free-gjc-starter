@@ -19,9 +19,9 @@
 <table border="1" style="border-collapse:collapse;width:100%;font-size:14px;">
 <tr style="background:#f0f2f5;"><th style="padding:7px;border:1px solid #ccc;">방식</th><th style="padding:7px;border:1px solid #ccc;">메인 두뇌</th><th style="padding:7px;border:1px solid #ccc;">필요한 무료 키</th></tr>
 <tr><td style="padding:7px;border:1px solid #ccc;"><b>A</b> (추천)</td><td style="padding:7px;border:1px solid #ccc;">Gemini — 구독 or <b>무료 로그인</b></td><td style="padding:7px;border:1px solid #ccc;">OpenRouter, Groq (2개)</td></tr>
-<tr><td style="padding:7px;border:1px solid #ccc;"><b>B</b></td><td style="padding:7px;border:1px solid #ccc;">Gemini 없이 <b>NVIDIA GLM-5.2</b></td><td style="padding:7px;border:1px solid #ccc;">OpenRouter, Groq, NVIDIA (3개)</td></tr>
+<tr><td style="padding:7px;border:1px solid #ccc;"><b>B</b></td><td style="padding:7px;border:1px solid #ccc;">Gemini 없이 <b>NVIDIA GLM-5.3</b></td><td style="padding:7px;border:1px solid #ccc;">OpenRouter, Groq, NVIDIA (3개)</td></tr>
 </table>
-<p style="color:#666;">※ A로 해도 Gemini가 막히면 자동으로 GLM-5.2로 넘어가게 이미 설정돼 있음.</p>
+<p style="color:#666;">※ A로 해도 Gemini가 막히면 자동으로 GLM-5.3로 넘어가게 이미 설정돼 있음.</p>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">1. 준비물</h3>
 <p>구글 계정 하나(Gmail), 인터넷 되는 윈도우/맥. 돈 안 듬.</p>
@@ -64,7 +64,7 @@ bash install.sh</pre>
 <tr style="background:#f0f2f5;"><th style="padding:7px;border:1px solid #ccc;">사이트</th><th style="padding:7px;border:1px solid #ccc;">주소</th><th style="padding:7px;border:1px solid #ccc;">언제</th></tr>
 <tr><td style="padding:7px;border:1px solid #ccc;">OpenRouter</td><td style="padding:7px;border:1px solid #ccc;">openrouter.ai/keys</td><td style="padding:7px;border:1px solid #ccc;">항상</td></tr>
 <tr><td style="padding:7px;border:1px solid #ccc;">Groq</td><td style="padding:7px;border:1px solid #ccc;">console.groq.com/keys</td><td style="padding:7px;border:1px solid #ccc;">항상</td></tr>
-<tr><td style="padding:7px;border:1px solid #ccc;">NVIDIA NIM</td><td style="padding:7px;border:1px solid #ccc;">build.nvidia.com/z-ai/glm-5.2 → Get API Key</td><td style="padding:7px;border:1px solid #ccc;">B 필수 / A 선택</td></tr>
+<tr><td style="padding:7px;border:1px solid #ccc;">NVIDIA NIM</td><td style="padding:7px;border:1px solid #ccc;">build.nvidia.com/z-ai/glm-5-3 → Get API Key</td><td style="padding:7px;border:1px solid #ccc;">B 필수 / A 선택</td></tr>
 </table>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">6. 키 넣기</h3>
@@ -82,10 +82,10 @@ source ~/.zshrc</pre>
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">7. 메인 두뇌 정하기</h3>
 <p><b>[방식 A] Gemini(무료)</b> — <code style="background:#eee;padding:1px 5px;border-radius:4px;">free-gjc</code> 실행 후 <code style="background:#eee;padding:1px 5px;border-radius:4px;">/login google-antigravity</code>. <b>기본값이 이미 <code style="background:#eee;padding:1px 5px;border-radius:4px;">google-antigravity/gemini-3.1-pro-low:high</code>라 로그인만 하면 됨.</b> (구글이 2026-06-18 옛 gemini-cli 무료를 종료하고 무료 사용자를 Antigravity 무료티어로 이전 → 개인 Gmail이면 카드 X, Gemini 3.1 Pro 무료)</p>
 <p style="color:#a00;">⚠️ 로그인 전: 브라우저에 구글 계정 여러 개면 엉뚱한 회사 계정으로 인증돼 <code style="background:#eee;padding:1px 5px;border-radius:4px;">GOOGLE_CLOUD_PROJECT</code> 오류 남. <b>시크릿 창에서 개인 지메일 1개만</b> 로그인한 채로 진행하셈.</p>
-<p style="color:#a00;">🪫 무료티어는 할당량 빡셈(하루 요청 수·주간 상한, preview) → 많이 쓰면 <b>429</b>. 그땐 잠깐 쉬거나 방식 B(GLM-5.2). Antigravity에서 Opus 등 Claude 모델은 유료라 무료 계정이 고르면 <b>404</b> — 무료는 Gemini 3.1 Pro만.</p>
-<p><b>[방식 B] GLM-5.2</b> — 로그인 없이 NVIDIA 키만. <code style="background:#eee;padding:1px 5px;border-radius:4px;">~/.gjc-free/agent/config.yml</code> 의 default를:</p>
+<p style="color:#a00;">🪫 무료티어는 할당량 빡셈(하루 요청 수·주간 상한, preview) → 많이 쓰면 <b>429</b>. 그땐 잠깐 쉬거나 방식 B(GLM-5.3). Antigravity에서 Opus 등 Claude 모델은 유료라 무료 계정이 고르면 <b>404</b> — 무료는 Gemini 3.1 Pro만.</p>
+<p><b>[방식 B] GLM-5.3</b> — 로그인 없이 NVIDIA 키만. <code style="background:#eee;padding:1px 5px;border-radius:4px;">~/.gjc-free/agent/config.yml</code> 의 default를:</p>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">modelRoles:
-  default: nvidia-nim/z-ai/glm-5.2</pre>
+  default: nvidia-nim/z-ai/glm-5.3</pre>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">8. 확인 &amp; 첫 대화</h3>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">free-gjc -p --no-session "안녕? 넌 누구야?"</pre>

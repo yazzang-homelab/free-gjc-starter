@@ -33,7 +33,7 @@ cat <<EOF
   2) 메인 Gemini 로그인 (본인 구글 계정):
        free-gjc            # 실행 후  /login google-antigravity
                            #   무료: 개인 Gmail이면 카드 없이 Gemini 3.1 Pro 무료티어(preview).
-                           #   할당량 빡세니 429 나면 잠시 뒤 또는 NVIDIA GLM-5.2로.
+                           #   할당량 빡세니 429 나면 잠시 뒤 또는 NVIDIA GLM-5.3로.
   3) 확인:
        free-gjc config get modelRoles
        free-gjc -p --no-session "누구니?"
