@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# free-claude — run Claude Code on OpenRouter ":free" models (no Anthropic subscription).
+# Uses an isolated config dir (~/.gjc-free/claude); your normal ~/.claude is untouched.
+# Every Claude Code model alias (opus/sonnet/haiku/subagent) is mapped to a ":free" model,
+# so nothing is routed to a paid Claude model. Requires OPENROUTER_API_KEY.
+set -euo pipefail
+if [ -z "${OPENROUTER_API_KEY:-}" ]; then
+  echo "OPENROUTER_API_KEY 가 없습니다. https://openrouter.ai/keys 에서 발급 후 export 하세요." >&2
+  exit 1
+fi
+command -v claude >/dev/null 2>&1 || { echo "claude 가 없습니다: npm install -g @anthropic-ai/claude-code" >&2; exit 1; }
+or_key="$OPENROUTER_API_KEY"
+# Drop every inherited ANTHROPIC_* (paid keys, other base URLs) before setting ours.
+while IFS='=' read -r _n _; do
+  case "$_n" in ANTHROPIC_*) unset "$_n" || true ;; esac
+done < <(env)
+super="${FREE_CLAUDE_MODEL:-nvidia/nemotron-3-super-120b-a12b:free}"
+ultra="${FREE_CLAUDE_BIG_MODEL:-nvidia/nemotron-3-ultra-550b-a55b:free}"
+export CLAUDE_CONFIG_DIR="${FREE_CLAUDE_CONFIG_DIR:-$HOME/.gjc-free/claude}"
+export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
+export ANTHROPIC_AUTH_TOKEN="$or_key"
+export ANTHROPIC_API_KEY=""
+export ANTHROPIC_MODEL="$super"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="$ultra"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="$super"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="$super"
+export CLAUDE_CODE_SUBAGENT_MODEL="$super"
+# Nemotron 3 Super context window on OpenRouter (Claude Code otherwise assumes 200k).
+export CLAUDE_CODE_MAX_CONTEXT_TOKENS="${CLAUDE_CODE_MAX_CONTEXT_TOKENS:-262144}"
+exec claude "$@"

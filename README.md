@@ -106,9 +106,11 @@ bash install.sh
 | --- | --- | --- | --- |
 | **OpenRouter** | <https://openrouter.ai/keys> | `sk-or-v1-...` | `:free` 모델 분당 20회, **하루 50회**(크레딧 $10 이상 충전 계정은 하루 1,000회) |
 | **NVIDIA NIM** | <https://build.nvidia.com> → 로그인 → **Get API Key** | `nvapi-...` | 분당 40회 (전화번호 인증 필요) |
+| AMD Radeon Cloud *(선택)* | <https://developer.amd.com.cn/radeon/tokenfactory> → 로그인 → 무료 모델 선택 → **API key** | 키 문자열 | 계정별 일일·분당 한도(베타, 수시 변경). 공식 문서: <https://amd-aim.github.io/radeon-cloud-docs/guides/model-apis/> |
 
 > 두 키 모두 **방식 A·B 공통**입니다. 방식 A(Gemini 메인)여도 Gemini가 막히면 NVIDIA 모델로 자동으로 넘어갑니다.
 > OpenRouter 하루 50회는 서브에이전트가 금방 씁니다. 다 쓰면 자동으로 NVIDIA 쪽으로 넘어가니 걱정하지 마세요.
+> AMD 키는 **없어도 됩니다.** 모든 역할의 맨 마지막 예비(DeepSeek V4.1 Flash)로만 들어가고, 키가 없으면 그 칸은 건너뜁니다. 이 세팅 작성자는 AMD 키로 실제 답변까지는 확인하지 못했습니다(엔드포인트·모델 목록·폴백 동작만 확인).
 > ℹ️ 예전 버전에 있던 **Groq는 뺐습니다.** Groq 무료는 분당 8,000토큰 한도라 gjc 요청 한 번(빈 폴더에서도 약 1.2만 토큰)이 매번 `413 Request too large`로 거절됩니다.
 
 각 사이트에서 **구글 계정으로 로그인 → "Create Key" 버튼 → 이름 아무거나 → 만들기 → 나온 키를 복사**하면 됩니다.
@@ -126,6 +128,7 @@ bash install.sh
 ```powershell
 setx OPENROUTER_API_KEY "여기에_복사한키_붙여넣기"
 setx NVIDIA_API_KEY "여기에_복사한키_붙여넣기"
+setx RADEON_API_KEY "여기에_복사한키_붙여넣기"   # 선택(AMD)
 ```
 👉 그리고 **터미널을 닫고 새로 여세요.** (`setx`는 새 창부터 적용돼요)
 
@@ -133,6 +136,7 @@ setx NVIDIA_API_KEY "여기에_복사한키_붙여넣기"
 ```bash
 echo 'export OPENROUTER_API_KEY="여기에_복사한키_붙여넣기"' >> ~/.zshrc
 echo 'export NVIDIA_API_KEY="여기에_복사한키_붙여넣기"' >> ~/.zshrc
+echo 'export RADEON_API_KEY="여기에_복사한키_붙여넣기"' >> ~/.zshrc   # 선택(AMD)
 source ~/.zshrc
 ```
 > (오래된 맥/리눅스라 `zsh`가 아니면 `~/.zshrc`를 `~/.bashrc`로 바꿔 쓰세요.)
@@ -187,6 +191,37 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 
 ---
 
+## 8. Claude Code · Codex 와 오가기 (선택)
+
+### Claude Code / Codex 를 같은 무료 모델로 쓰기 — `free-claude`, `free-codex`
+이미 **Claude Code**(`claude`)나 **Codex CLI**(`codex`)를 깔아 쓰고 있다면, 설치 스크립트가 같이 넣어 준 런처로 **구독·결제 없이** OpenRouter `:free` 모델에 붙여 쓸 수 있습니다.
+
+```bash
+free-claude                    # Claude Code  → Nemotron 3 Super 120B (:free)
+free-codex                     # Codex CLI    → Nemotron 3 Super 120B (:free)
+free-codex -p ultra            # Codex CLI    → Nemotron 3 Ultra 550B (:free)
+```
+
+- 필요한 키는 **`OPENROUTER_API_KEY` 하나**입니다. (NVIDIA는 Claude Code가 요구하는 Anthropic 방식도, Codex가 요구하는 Responses 방식도 지원하지 않아 여기선 못 씁니다.)
+- 설정은 `~/.gjc-free/claude`, `~/.gjc-free/codex` 에 따로 저장됩니다. 평소 쓰던 `~/.claude`·`~/.codex`·로그인·대화기록은 **건드리지 않습니다.**
+- `free-claude` 는 opus/sonnet/haiku/서브에이전트 모델을 전부 `:free` 모델로 고정하고, 셸에 남아 있던 `ANTHROPIC_*` 값(유료 키 등)은 지우고 실행합니다. 시작할 때 `[claude-code:unrecognized_model]` 경고가 뜨는데 Claude 이외 모델이라 나는 정상 안내입니다.
+- OpenRouter 하루 50회 한도를 `free-gjc` 와 **같이** 씁니다. 폴백 체인이 없어서 다 쓰면 다음 날(UTC 0시)까지 429가 납니다.
+- 모델을 바꾸려면: `FREE_CLAUDE_MODEL=...` / `FREE_CLAUDE_BIG_MODEL=...` 환경변수, Codex는 `~/.gjc-free/codex/config.toml` 의 `model`.
+
+### Claude Code / Codex 에서 쓰던 MCP 서버·스킬 가져오기 — `free-gjc migrate`
+gjc에 내장된 가져오기 기능입니다. `free-gjc` 로 실행하면 **무료 프로필(`~/.gjc-free/agent`)에만** 들어갑니다.
+
+```bash
+free-gjc migrate --from claude-code --dry-run   # 무엇을 가져올지 미리 보기(아무것도 안 바꿈)
+free-gjc migrate --from claude-code             # ~/.claude 의 MCP 서버·스킬 → 무료 프로필
+free-gjc migrate --from codex                   # ~/.codex 에서
+free-gjc migrate --from all                     # claude-code·codex·opencode 전부
+free-gjc migrate --from all --project           # 현재 폴더의 프로젝트 설정(.claude/ 등)만
+```
+이미 있는 항목은 건너뛰며, 덮어쓰려면 `--force` 를 붙입니다. API 키나 로그인 정보는 가져오지 않습니다.
+
+---
+
 ## 문제 해결 (막히면 여기)
 
 | 증상 | 해결 |
@@ -218,22 +253,23 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 
 ## 무엇을 쓰는지 (참고)
 
-| 역할 | 모델 | 조달 |
-| --- | --- | --- |
 | 역할 | 1순위 | 막히면 → |
 | --- | --- | --- |
-| 메인(default) | Gemini 3.1 Pro (Antigravity 로그인) | DeepSeek V4.1 Flash (NVIDIA) → Nemotron 3 Ultra 550B (OpenRouter) |
-| executor·critic | Nemotron 3 Super 120B (OpenRouter) | DeepSeek V4.1 Flash (NVIDIA) |
-| planner | Nemotron 3 Ultra 550B (OpenRouter) | DeepSeek V4.1 Flash (NVIDIA) |
-| architect | Nemotron 3 Ultra 550B (OpenRouter) | GLM-5.3 (NVIDIA) |
+| 메인(default) | Gemini 3.1 Pro (Antigravity 로그인) | DeepSeek V4.1 Flash (NVIDIA) → Nemotron 3 Ultra 550B (OpenRouter) → DeepSeek V4.1 Flash (AMD) |
+| executor·critic | Nemotron 3 Super 120B (OpenRouter) | DeepSeek V4.1 Flash (NVIDIA) → DeepSeek V4.1 Flash (AMD) |
+| planner | Nemotron 3 Ultra 550B (OpenRouter) | DeepSeek V4.1 Flash (NVIDIA) → DeepSeek V4.1 Flash (AMD) |
+| architect | Nemotron 3 Ultra 550B (OpenRouter) | GLM-5.3 (NVIDIA) → DeepSeek V4.1 Flash (AMD) |
 
-모두 gjc **내장 provider**(`google-antigravity`·`nvidia`·`openrouter`)라 따로 정의할 게 없습니다. 어느 모델이 로그인 없음·429·서버 오류가 나면 오른쪽 모델로 자동 전환됩니다.
+`google-antigravity`·`nvidia`·`openrouter` 는 gjc **내장 provider**이고, AMD(`amd-radeon`)만 `models.yml` 에 정의돼 있습니다. 어느 모델이 로그인 없음·429·서버 오류가 나면 오른쪽 모델로 자동 전환됩니다.
 
 ## 파일 구성 (개발자용)
 
 | 경로 | 설치 위치 | 용도 |
 | --- | --- | --- |
 | `agent/config.yml` | `~/.gjc-free/agent/config.yml` | 역할별 폴백 체인 (기존 파일은 `--force` 없이 안 덮음) |
+| `agent/models.yml` | `~/.gjc-free/agent/models.yml` | AMD Radeon Cloud provider 정의 (키는 `RADEON_API_KEY` 이름만 참조) |
+| `codex/config.toml`, `codex/ultra.config.toml` | `~/.gjc-free/codex/` | `free-codex` 용 Codex 설정(OpenRouter `:free`) |
+| `bin/free-claude`, `bin/free-codex` (+`.cmd`) | PATH | Claude Code·Codex를 격리 설정 + OpenRouter `:free` 로 실행 |
 | `bin/free-gjc`, `.cmd`, `.ps1` | PATH | `free-gjc` 실행기. `GJC_CODING_AGENT_DIR=~/.gjc-free/agent` 로 사용자 설정·세션·인증만 분리하고, 프로젝트의 `.gjc/` 스킬·설정은 그대로 읽음 |
 | `install.sh` / `install.ps1` | — | 설치 스크립트 (`--force` / `-Force` = 백업 후 교체) |
 | `guide.html` | — | 그림 포함 키 발급 가이드 |

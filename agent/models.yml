@@ -1,0 +1,22 @@
+# free-gjc-starter — gjc 내장에 없는 무료 provider만 여기에 둔다.
+# 키는 환경변수 "이름"으로만 참조한다. 이 파일에 키를 적지 마라.
+
+providers:
+  # AMD Radeon Cloud — Token Factory "Public Free Model APIs" (OpenAI 호환, 베타)
+  #   키 발급: https://developer.amd.com.cn/radeon/tokenfactory → 로그인 → 모델 선택 → API key
+  #   export RADEON_API_KEY=...
+  #   공식 문서: https://amd-aim.github.io/radeon-cloud-docs/guides/model-apis/
+  #   계정별 일일 한도·분당 한도가 있고 카탈로그는 수시로 바뀐다. gjc가 /v1/models로 나머지 무료 모델을 자동으로 불러온다.
+  #   키가 없으면 config.yml 폴백 체인에서 이 항목은 건너뛴다.
+  amd-radeon:
+    baseUrl: https://developer.amd.com.cn/radeon/api/v1
+    apiKeyEnv: RADEON_API_KEY
+    api: openai-completions
+    models:
+      - id: DeepSeek-V4.1-Flash
+        name: 【무료】 DeepSeek V4.1 Flash · AMD Radeon Cloud
+        reasoning: true
+        input: [text]
+        contextWindow: 1048576
+        maxTokens: 32000
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }

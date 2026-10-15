@@ -65,16 +65,20 @@ bash install.sh</pre>
 <tr style="background:#f0f2f5;"><th style="padding:7px;border:1px solid #ccc;">사이트</th><th style="padding:7px;border:1px solid #ccc;">주소</th><th style="padding:7px;border:1px solid #ccc;">무료 한도</th></tr>
 <tr><td style="padding:7px;border:1px solid #ccc;">OpenRouter</td><td style="padding:7px;border:1px solid #ccc;">openrouter.ai/keys</td><td style="padding:7px;border:1px solid #ccc;">:free 하루 50회</td></tr>
 <tr><td style="padding:7px;border:1px solid #ccc;">NVIDIA NIM</td><td style="padding:7px;border:1px solid #ccc;">build.nvidia.com → Get API Key</td><td style="padding:7px;border:1px solid #ccc;">분당 40회</td></tr>
+<tr><td style="padding:7px;border:1px solid #ccc;">AMD Radeon Cloud (선택)</td><td style="padding:7px;border:1px solid #ccc;">developer.amd.com.cn/radeon/tokenfactory → API key</td><td style="padding:7px;border:1px solid #ccc;">계정별 일일 한도(베타)</td></tr>
 </table>
+<p style="color:#666;">AMD는 없어도 됨. 맨 마지막 예비로만 들어가고 키 없으면 건너뜀. (작성자는 AMD 키로 실답변까진 확인 못 함)</p>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">6. 키 넣기</h3>
 <p style="margin-bottom:4px;color:#555;">🪟 윈도우 (안 쓰는 줄은 빼도 됨):</p>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">setx OPENROUTER_API_KEY "여기에_키"
-setx NVIDIA_API_KEY "여기에_키"</pre>
+setx NVIDIA_API_KEY "여기에_키"
+setx RADEON_API_KEY "여기에_키"   (선택)</pre>
 <p style="margin:4px 0;">👉 터미널 새로 열기(setx는 새 창부터 적용).</p>
 <p style="margin-bottom:4px;color:#555;">🍎 맥 / 리눅스:</p>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">echo 'export OPENROUTER_API_KEY="여기에_키"' &gt;&gt; ~/.zshrc
 echo 'export NVIDIA_API_KEY="여기에_키"'     &gt;&gt; ~/.zshrc
+echo 'export RADEON_API_KEY="여기에_키"'     &gt;&gt; ~/.zshrc   # 선택
 source ~/.zshrc</pre>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">7. 메인 두뇌 정하기</h3>
@@ -86,6 +90,13 @@ source ~/.zshrc</pre>
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">8. 확인 &amp; 첫 대화</h3>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">free-gjc -p --no-session "안녕? 넌 누구야?"</pre>
 <p>대답 나오면 성공. 이제 <code style="background:#eee;padding:1px 5px;border-radius:4px;">free-gjc "파이썬 계산기 만들어줘"</code> 처럼 쓰면 됨.</p>
+
+<h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">9. Claude Code · Codex 에서도 무료로 (선택)</h3>
+<p>claude·codex 깔려 있으면 같이 설치된 런처로 OpenRouter :free 모델에 붙음. 키는 OPENROUTER_API_KEY 하나, 설정은 ~/.gjc-free 안에 따로라 원래 ~/.claude·~/.codex 안 건드림.</p>
+<pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">free-claude            # Claude Code → Nemotron 3 Super (:free)
+free-codex             # Codex CLI   → Nemotron 3 Super (:free)
+free-codex -p ultra    # Codex CLI   → Nemotron 3 Ultra (:free)</pre>
+<p>Claude Code/Codex에서 쓰던 MCP 서버·스킬은 <code style="background:#eee;padding:1px 5px;border-radius:4px;">free-gjc migrate --from claude-code</code> (또는 <code style="background:#eee;padding:1px 5px;border-radius:4px;">codex</code>, <code style="background:#eee;padding:1px 5px;border-radius:4px;">all</code>)로 무료 프로필에 가져옴. 먼저 <code style="background:#eee;padding:1px 5px;border-radius:4px;">--dry-run</code>으로 미리 보기 가능.</p>
 
 <div style="border-left:4px solid #5cb85c;background:#eefaef;padding:10px 14px;margin:18px 0;border-radius:0 8px 8px 0;">
 🔒 키·개인정보는 repo에 하나도 없음. 키는 본인 PC에만 저장. 기존 gjc 설정은 안 건드림(<code style="background:#eee;padding:1px 5px;border-radius:4px;">~/.gjc-free</code>에만 설치).

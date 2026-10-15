@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# free-codex — run OpenAI Codex CLI on OpenRouter ":free" models (no ChatGPT/OpenAI billing).
+# Uses an isolated CODEX_HOME (~/.gjc-free/codex); your normal ~/.codex is untouched.
+# Requires OPENROUTER_API_KEY. `free-codex -p ultra` switches to Nemotron 3 Ultra.
+set -euo pipefail
+if [ -z "${OPENROUTER_API_KEY:-}" ]; then
+  echo "OPENROUTER_API_KEY 가 없습니다. https://openrouter.ai/keys 에서 발급 후 export 하세요." >&2
+  exit 1
+fi
+command -v codex >/dev/null 2>&1 || { echo "codex 가 없습니다: npm install -g @openai/codex" >&2; exit 1; }
+export CODEX_HOME="${FREE_CODEX_HOME:-$HOME/.gjc-free/codex}"
+if [ ! -f "$CODEX_HOME/config.toml" ]; then
+  echo "$CODEX_HOME/config.toml 이 없습니다. free-gjc-starter 의 install 스크립트를 다시 실행하세요." >&2
+  exit 1
+fi
+unset OPENAI_API_KEY OPENAI_BASE_URL OPENAI_ORG_ID OPENAI_PROJECT_ID
+exec codex "$@"

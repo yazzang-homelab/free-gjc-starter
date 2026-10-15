@@ -15,38 +15,51 @@ if (-not (Get-Command gjc -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-$agent = Join-Path $env:USERPROFILE ".gjc-free\agent"
-New-Item -ItemType Directory -Force -Path $agent | Out-Null
+$root = Join-Path $env:USERPROFILE ".gjc-free"
+$agent = Join-Path $root "agent"
+$codexDir = Join-Path $root "codex"
+New-Item -ItemType Directory -Force -Path $agent, $codexDir | Out-Null
 $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
-$cfg = Join-Path $agent "config.yml"
-$models = Join-Path $agent "models.yml"
+$script:kept = $false
 
-if ((Test-Path $cfg) -and -not $Force) {
-    Write-Host "기존 설정 유지: $cfg (새 설정으로 바꾸려면 -Force)"
-    if (Select-String -Path $cfg -Pattern 'groq-free|nvidia-nim|openrouter-free|fallbackChains' -Quiet) {
-        Write-Host "  예전 버전 설정입니다(Groq 레인/옛 provider 이름). install.ps1 -Force 로 교체하세요." -ForegroundColor Yellow
+# 대상이 있으면 유지(-Force면 .bak-<시각> 백업 후 교체)
+function Place($src, $dst) {
+    if ((Test-Path $dst) -and -not $Force) {
+        Write-Host "기존 설정 유지: $dst"
+        $script:kept = $true
+        return
     }
-} else {
-    if (Test-Path $cfg) {
-        Move-Item $cfg "$cfg.bak-$stamp"
-        Write-Host "백업: $cfg.bak-$stamp"
+    if (Test-Path $dst) {
+        Move-Item $dst "$dst.bak-$stamp"
+        Write-Host "백업: $dst.bak-$stamp"
     }
-    # 예전 버전이 깔던 models.yml(openrouter-free/groq-free/nvidia-nim)은 이제 필요 없다.
-    if ($Force -and (Test-Path $models)) {
-        Move-Item $models "$models.bak-$stamp"
-        Write-Host "백업: $models.bak-$stamp"
-    }
-    Copy-Item (Join-Path $here "agent\config.yml") $cfg
+    Copy-Item $src $dst
 }
 
-# free-gjc.cmd 런처 -> WindowsApps (사용자 쓰기 가능, 기본 PATH 포함)
+Place (Join-Path $here "agent\config.yml") (Join-Path $agent "config.yml")
+Place (Join-Path $here "agent\models.yml") (Join-Path $agent "models.yml")
+Place (Join-Path $here "codex\config.toml") (Join-Path $codexDir "config.toml")
+Place (Join-Path $here "codex\ultra.config.toml") (Join-Path $codexDir "ultra.config.toml")
+
+$old = @((Join-Path $agent "config.yml"), (Join-Path $agent "models.yml")) | Where-Object { Test-Path $_ }
+if ($old -and (Select-String -Path $old -Pattern 'groq-free|nvidia-nim|openrouter-free|fallbackChains' -Quiet)) {
+    Write-Host "  예전 버전 설정입니다(Groq 레인/옛 provider 이름). install.ps1 -Force 로 교체하세요." -ForegroundColor Yellow
+} elseif ($script:kept) {
+    Write-Host "  (새 설정으로 바꾸려면 -Force)"
+}
+
+# 런처(.cmd) -> WindowsApps (사용자 쓰기 가능, 기본 PATH 포함)
 $binDst = Join-Path $env:LOCALAPPDATA "Microsoft\WindowsApps"
-Copy-Item (Join-Path $here "bin\free-gjc.cmd") (Join-Path $binDst "free-gjc.cmd") -Force
+foreach ($b in "free-gjc.cmd", "free-claude.cmd", "free-codex.cmd") {
+    Copy-Item (Join-Path $here "bin\$b") (Join-Path $binDst $b) -Force
+}
 
 Write-Host ""
-Write-Host "설치 완료. FREE 프로필 -> $agent, 런처 -> free-gjc.cmd" -ForegroundColor Green
+Write-Host "설치 완료. FREE 프로필 -> $root, 런처 -> free-gjc / free-claude / free-codex (.cmd)" -ForegroundColor Green
 Write-Host "다음 3가지를 본인 것으로 채우면 끝:"
 Write-Host '  1) setx OPENROUTER_API_KEY "본인키"   (https://openrouter.ai/keys)'
 Write-Host '     setx NVIDIA_API_KEY "본인키"       (https://build.nvidia.com, nvapi-...)'
+Write-Host '     setx RADEON_API_KEY "본인키"       (선택, https://developer.amd.com.cn/radeon/tokenfactory)'
 Write-Host "  2) (선택) free-gjc 실행 후  /login google-antigravity  (개인 Gmail = 무료 Gemini)"
 Write-Host '  3) 새 터미널에서  free-gjc -p --no-session "누구니?"'
+Write-Host "Claude Code / Codex 를 같은 무료 모델로: free-claude / free-codex (각 CLI가 설치돼 있을 때)"

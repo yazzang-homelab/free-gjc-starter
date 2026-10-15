@@ -1,0 +1,13 @@
+# free-codex 프로필 (CODEX_HOME=~/.gjc-free/codex). 평소 ~/.codex 와 완전히 분리된다.
+# Codex는 Responses API만 지원하므로 OpenRouter :free 모델만 쓸 수 있다.
+# (NVIDIA NIM은 /v1/responses 가 없어 Codex에서 쓸 수 없다 — 2026-10-15 실측 404)
+#   기본:  free-codex                 → Nemotron 3 Super 120B
+#   큰 것: free-codex -p ultra        → Nemotron 3 Ultra 550B (ultra.config.toml)
+model = "nvidia/nemotron-3-super-120b-a12b:free"
+model_provider = "openrouter-free"
+
+[model_providers.openrouter-free]
+name = "OpenRouter (free)"
+base_url = "https://openrouter.ai/api/v1"
+env_key = "OPENROUTER_API_KEY"
+wire_api = "responses"

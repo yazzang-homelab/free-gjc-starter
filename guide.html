@@ -156,7 +156,9 @@ bash install.sh</code></pre>
     <tr><th>사이트</th><th>발급 링크</th><th>키 형태</th><th>무료 한도(공식)</th></tr>
     <tr><td>OpenRouter</td><td><a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a></td><td><code>sk-or-v1-...</code></td><td><code>:free</code> 모델 분당 20회, <b>하루 50회</b> (크레딧 $10 이상 충전 계정은 하루 1,000회)</td></tr>
     <tr><td>NVIDIA NIM</td><td><a href="https://build.nvidia.com" target="_blank" rel="noopener">build.nvidia.com</a> → <b>Get API Key</b></td><td><code>nvapi-...</code></td><td>분당 40회 (전화번호 인증 필요)</td></tr>
+    <tr><td>AMD Radeon Cloud <span class="muted">(선택)</span></td><td><a href="https://developer.amd.com.cn/radeon/tokenfactory" target="_blank" rel="noopener">developer.amd.com.cn/radeon/tokenfactory</a> → 무료 모델 선택 → <b>API key</b></td><td>키 문자열</td><td>계정별 일일·분당 한도(베타, 수시 변경) · <a href="https://amd-aim.github.io/radeon-cloud-docs/guides/model-apis/" target="_blank" rel="noopener">공식 문서</a></td></tr>
   </table>
+  <p class="muted">AMD 키는 없어도 됩니다. 모든 역할의 맨 마지막 예비(DeepSeek V4.1 Flash)로만 쓰이고, 키가 없으면 그 칸은 건너뜁니다. 작성자는 AMD 키로 실제 답변까지는 확인하지 못했습니다(엔드포인트·모델 목록·폴백 동작만 확인).</p>
   <p class="muted">ℹ️ 예전 버전의 <b>Groq는 뺐습니다.</b> Groq 무료는 분당 8,000토큰 한도라 gjc 요청 한 번(빈 폴더에서도 약 1.2만 토큰)이 매번 <code>413 Request too large</code>로 거절됩니다.</p>
   <div class="warn">키는 <b>생성 직후 한 번만</b> 보이는 경우가 많습니다. 바로 복사해서 다음 단계로 가세요.</div>
 
@@ -164,11 +166,13 @@ bash install.sh</code></pre>
   <p><code>여기에_키</code> 부분만 <b>방금 복사한 진짜 키</b>로 바꿔서 붙여넣으세요. (안 쓰는 키 줄은 빼도 됩니다)</p>
   <div class="os">🪟 윈도우 (PowerShell)</div>
   <pre><code>setx OPENROUTER_API_KEY "여기에_키"
-setx NVIDIA_API_KEY "여기에_키"</code></pre>
+setx NVIDIA_API_KEY "여기에_키"
+setx RADEON_API_KEY "여기에_키"         # 선택(AMD)</code></pre>
   <p>👉 그리고 <b>터미널을 닫고 새로 여세요.</b> (setx는 새 창부터 적용)</p>
   <div class="os">🍎 맥 / 리눅스</div>
   <pre><code>echo 'export OPENROUTER_API_KEY="여기에_키"' >> ~/.zshrc
 echo 'export NVIDIA_API_KEY="여기에_키"'     >> ~/.zshrc
+echo 'export RADEON_API_KEY="여기에_키"'     >> ~/.zshrc   # 선택(AMD)
 source ~/.zshrc</code></pre>
   <p class="muted">(오래된 셸이면 <code>~/.zshrc</code> → <code>~/.bashrc</code> 로 바꿔 쓰세요.)</p>
 
@@ -204,6 +208,24 @@ free-gjc -p --no-session "안녕? 넌 누구야?"</code></pre>
 free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</code></pre>
   평소 쓰던 <code>gjc</code>(다른 프로필)와 완전히 따로 돌아가니 안심하세요.</div>
 
+  <h2 id="migrate">9. Claude Code · Codex 와 오가기 (선택)</h2>
+  <p><b>Claude Code / Codex를 같은 무료 모델로</b> — 이미 <code>claude</code>·<code>codex</code>를 깔아 쓰고 있다면, 설치 스크립트가 같이 넣어 준 런처로 구독·결제 없이 OpenRouter <code>:free</code> 모델에 붙입니다.</p>
+  <pre><code>free-claude              # Claude Code → Nemotron 3 Super 120B (:free)
+free-codex               # Codex CLI   → Nemotron 3 Super 120B (:free)
+free-codex -p ultra      # Codex CLI   → Nemotron 3 Ultra 550B (:free)</code></pre>
+  <ul>
+    <li>필요한 키는 <code>OPENROUTER_API_KEY</code> 하나. NVIDIA는 Claude Code(Anthropic 방식)·Codex(Responses 방식)가 요구하는 API를 지원하지 않아 여기선 못 씁니다.</li>
+    <li>설정은 <code>~/.gjc-free/claude</code>·<code>~/.gjc-free/codex</code>에 따로 저장. 평소 <code>~/.claude</code>·<code>~/.codex</code>·로그인·대화기록은 건드리지 않습니다.</li>
+    <li><code>free-claude</code>는 opus/sonnet/haiku/서브에이전트 모델을 전부 <code>:free</code>로 고정하고 셸에 남은 <code>ANTHROPIC_*</code>(유료 키 등)를 지우고 실행합니다. 시작 시 <code>[claude-code:unrecognized_model]</code> 경고는 정상.</li>
+    <li>OpenRouter 하루 50회를 <code>free-gjc</code>와 같이 씁니다. 폴백이 없어 다 쓰면 다음 날(UTC 0시)까지 429.</li>
+  </ul>
+  <p><b>Claude Code / Codex에서 쓰던 MCP 서버·스킬 가져오기</b> — gjc 내장 기능이며, <code>free-gjc</code>로 실행하면 무료 프로필(<code>~/.gjc-free/agent</code>)에만 들어갑니다.</p>
+  <pre><code>free-gjc migrate --from claude-code --dry-run   # 미리 보기(아무것도 안 바꿈)
+free-gjc migrate --from claude-code             # ~/.claude 에서
+free-gjc migrate --from codex                   # ~/.codex 에서
+free-gjc migrate --from all --project           # 현재 폴더의 프로젝트 설정만</code></pre>
+  <p class="muted">이미 있는 항목은 건너뛰며 덮어쓰려면 <code>--force</code>. API 키·로그인 정보는 가져오지 않습니다.</p>
+
   <h2 id="trouble">문제 해결</h2>
   <table>
     <tr><th>증상</th><th>해결</th></tr>
@@ -231,12 +253,12 @@ free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</cod
   <h2>참고: 무엇을 쓰나</h2>
   <table>
     <tr><th>역할</th><th>1순위</th><th>막히면 →</th></tr>
-    <tr><td>메인(default)</td><td>Gemini 3.1 Pro <span class="muted">(Antigravity 로그인)</span></td><td>DeepSeek V4.1 Flash (NVIDIA) → Nemotron 3 Ultra 550B (OpenRouter)</td></tr>
-    <tr><td>executor·critic</td><td>Nemotron 3 Super 120B <span class="tag free">무료</span> (OpenRouter)</td><td>DeepSeek V4.1 Flash (NVIDIA)</td></tr>
-    <tr><td>planner</td><td>Nemotron 3 Ultra 550B <span class="tag free">무료</span> (OpenRouter)</td><td>DeepSeek V4.1 Flash (NVIDIA)</td></tr>
-    <tr><td>architect</td><td>Nemotron 3 Ultra 550B <span class="tag free">무료</span> (OpenRouter)</td><td>GLM-5.3 (NVIDIA)</td></tr>
+    <tr><td>메인(default)</td><td>Gemini 3.1 Pro <span class="muted">(Antigravity 로그인)</span></td><td>DeepSeek V4.1 Flash (NVIDIA) → Nemotron 3 Ultra 550B (OpenRouter) → DeepSeek V4.1 Flash (AMD)</td></tr>
+    <tr><td>executor·critic</td><td>Nemotron 3 Super 120B <span class="tag free">무료</span> (OpenRouter)</td><td>DeepSeek V4.1 Flash (NVIDIA) → DeepSeek V4.1 Flash (AMD)</td></tr>
+    <tr><td>planner</td><td>Nemotron 3 Ultra 550B <span class="tag free">무료</span> (OpenRouter)</td><td>DeepSeek V4.1 Flash (NVIDIA) → DeepSeek V4.1 Flash (AMD)</td></tr>
+    <tr><td>architect</td><td>Nemotron 3 Ultra 550B <span class="tag free">무료</span> (OpenRouter)</td><td>GLM-5.3 (NVIDIA) → DeepSeek V4.1 Flash (AMD)</td></tr>
   </table>
-  <p class="muted">모두 gjc 내장 provider(<code>google-antigravity</code>·<code>nvidia</code>·<code>openrouter</code>)라 별도 정의가 없습니다. 로그인 없음·429·서버 오류가 나면 오른쪽 모델로 자동 전환됩니다.</p>
+  <p class="muted"><code>google-antigravity</code>·<code>nvidia</code>·<code>openrouter</code>는 gjc 내장 provider이고, AMD(<code>amd-radeon</code>)만 <code>models.yml</code>에 정의돼 있습니다. 로그인 없음·429·서버 오류가 나면 오른쪽 모델로 자동 전환됩니다.</p>
 
   <h2>☕ 후원</h2>
   <div class="card" style="text-align:center;">
@@ -260,7 +282,7 @@ free-gjc "파이썬으로 계산기 만들어줘"    # 한 번에 시키기</cod
   <footer>
     free-gjc-starter · <a href="https://github.com/yazzang-homelab/free-gjc-starter" target="_blank" rel="noopener">GitHub</a> ·
     이 문서와 repo에는 API 키·개인정보가 하나도 없습니다. 키는 각자 본인 환경변수에만 보관하세요.
-    <br><span class="muted">문서 버전: 2026-10-15a · 이 페이지에 "DeepSeek V4.1 Flash"·"Nemotron 3 Ultra"가 보이면 최신본입니다.</span>
+    <br><span class="muted">문서 버전: 2026-10-15b · 이 페이지에 "DeepSeek V4.1 Flash"·"Nemotron 3 Ultra"가 보이면 최신본입니다.</span>
   </footer>
 
 </div>

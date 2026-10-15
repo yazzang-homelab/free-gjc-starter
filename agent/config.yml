@@ -1,10 +1,11 @@
 # free-gjc-starter FREE 프로필 (free-gjc 실행기 → GJC_CODING_AGENT_DIR=~/.gjc-free/agent).
 #
 # 각 역할은 "폴백 체인"이다. 앞 모델이 로그인 안 됨·429·5xx로 실패하면 다음 모델로 넘어간다.
-# 모두 gjc 내장 provider를 쓰므로 models.yml이 필요 없다. 키는 셸 환경변수로만 넣는다.
+# amd-radeon만 models.yml에 정의하고 나머지는 gjc 내장 provider다. 키는 셸 환경변수로만 넣는다.
 #   google-antigravity : /login google-antigravity (개인 Gmail OAuth, 무료 Individual 플랜)
 #   nvidia             : NVIDIA_API_KEY      (build.nvidia.com 무료 Developer 키)
 #   openrouter         : OPENROUTER_API_KEY  (":free" 모델만 지정. 크레딧 0원이면 유료 모델은 402로 거절된다)
+#   amd-radeon         : RADEON_API_KEY      (선택. models.yml에 정의. 키가 없으면 이 항목은 건너뛴다)
 #
 # 주의: gjc가 처음 실행될 때 이 파일을 다시 쓰면서 주석을 지울 수 있다. 정상이다.
 modelRoles:
@@ -12,17 +13,22 @@ modelRoles:
     - google-antigravity/gemini-3.1-pro-low:high
     - nvidia/deepseek-ai/deepseek-v4.1-flash
     - openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+    - amd-radeon/DeepSeek-V4.1-Flash
   executor:
     - openrouter/nvidia/nemotron-3-super-120b-a12b:free
     - nvidia/deepseek-ai/deepseek-v4.1-flash
+    - amd-radeon/DeepSeek-V4.1-Flash
   architect:
     - openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
     - nvidia/z-ai/glm-5.3
+    - amd-radeon/DeepSeek-V4.1-Flash
   planner:
     - openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
     - nvidia/deepseek-ai/deepseek-v4.1-flash
+    - amd-radeon/DeepSeek-V4.1-Flash
   critic:
     - openrouter/nvidia/nemotron-3-super-120b-a12b:free
     - nvidia/deepseek-ai/deepseek-v4.1-flash
+    - amd-radeon/DeepSeek-V4.1-Flash
 theme:
   dark: opencode

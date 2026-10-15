@@ -23,44 +23,62 @@ if ! command -v gjc >/dev/null 2>&1; then
   exit 1
 fi
 
-agent="$HOME/.gjc-free/agent"
-mkdir -p "$agent"
+root="$HOME/.gjc-free"
+agent="$root/agent"
+codexdir="$root/codex"
+mkdir -p "$agent" "$codexdir"
 stamp="$(date +%Y%m%d-%H%M%S)"
+kept=0
 
-if [ -e "$agent/config.yml" ] && [ "$force" -eq 0 ]; then
-  echo "기존 설정 유지: $agent/config.yml (새 설정으로 바꾸려면: bash install.sh --force)"
-  if grep -qE 'groq-free|nvidia-nim|openrouter-free|fallbackChains' "$agent/config.yml"; then
-    echo "  ⚠ 예전 버전 설정입니다(Groq 레인·옛 provider 이름). bash install.sh --force 로 교체하세요."
+# place SRC DST: DST가 있으면 유지(--force면 .bak-<시각> 백업 후 교체)
+place() {
+  local src="$1" dst="$2"
+  if [ -e "$dst" ] && [ "$force" -eq 0 ]; then
+    echo "기존 설정 유지: $dst"
+    kept=1
+    return
   fi
-else
-  if [ -e "$agent/config.yml" ]; then
-    mv "$agent/config.yml" "$agent/config.yml.bak-$stamp"
-    echo "백업: $agent/config.yml.bak-$stamp"
+  if [ -e "$dst" ]; then
+    mv "$dst" "$dst.bak-$stamp"
+    echo "백업: $dst.bak-$stamp"
   fi
-  # 예전 버전이 깔던 models.yml(openrouter-free/groq-free/nvidia-nim)은 이제 필요 없다.
-  if [ "$force" -eq 1 ] && [ -e "$agent/models.yml" ]; then
-    mv "$agent/models.yml" "$agent/models.yml.bak-$stamp"
-    echo "백업: $agent/models.yml.bak-$stamp"
-  fi
-  install -m644 "$here/agent/config.yml" "$agent/config.yml"
+  install -m644 "$src" "$dst"
+}
+
+place "$here/agent/config.yml" "$agent/config.yml"
+place "$here/agent/models.yml" "$agent/models.yml"
+place "$here/codex/config.toml" "$codexdir/config.toml"
+place "$here/codex/ultra.config.toml" "$codexdir/ultra.config.toml"
+
+if grep -qsE 'groq-free|nvidia-nim|openrouter-free|fallbackChains' "$agent/config.yml" "$agent/models.yml"; then
+  echo "  ⚠ 예전 버전 설정입니다(Groq 레인·옛 provider 이름). bash install.sh --force 로 교체하세요."
+elif [ "$kept" -eq 1 ]; then
+  echo "  (새 설정으로 바꾸려면: bash install.sh --force)"
 fi
 
 bindir="$HOME/.local/bin"
 mkdir -p "$bindir"
-install -m755 "$here/bin/free-gjc" "$bindir/free-gjc"
+for b in free-gjc free-claude free-codex; do
+  install -m755 "$here/bin/$b" "$bindir/$b"
+done
 
 cat <<EOF
 
-설치 완료. FREE 프로필 -> $agent, 런처 -> $bindir/free-gjc
+설치 완료. FREE 프로필 -> $root, 런처 -> $bindir/{free-gjc,free-claude,free-codex}
 ($bindir 가 PATH에 없으면 추가하세요: export PATH="\$HOME/.local/bin:\$PATH")
 
 다음 3가지를 본인 것으로 채우면 끝:
   1) 무료 키 2개 (본인 발급, 셸 환경변수):
        export OPENROUTER_API_KEY=...   # https://openrouter.ai/keys
        export NVIDIA_API_KEY=...       # https://build.nvidia.com  (nvapi-...)
+       export RADEON_API_KEY=...       # (선택) https://developer.amd.com.cn/radeon/tokenfactory
   2) 메인 Gemini 로그인 (본인 구글 계정, 선택):
        free-gjc            # 실행 후  /login google-antigravity
   3) 확인:
        free-gjc config get modelRoles
        free-gjc -p --no-session "누구니?"
+
+Claude Code·Codex를 같은 무료 모델로 쓰려면(설치돼 있을 때):
+       free-claude        # Claude Code  + OpenRouter :free
+       free-codex         # Codex CLI    + OpenRouter :free
 EOF
