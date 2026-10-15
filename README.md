@@ -93,23 +93,23 @@ cd free-gjc-starter
 bash install.sh
 ```
 > ❔ `git: command not found` 이 나오면 → 윈도우는 <https://git-scm.com/download/win> 에서 Git 설치, 맥은 터미널에 `xcode-select --install` 입력 후 설치하고 다시 시도하세요.
+> 🔄 **예전에 설치한 분(업데이트):** 설치 스크립트는 이미 있는 `~/.gjc-free/agent/config.yml`을 **덮어쓰지 않습니다**(직접 고친 설정 보호). 새 설정으로 바꾸려면 `cd free-gjc-starter && git pull` 후 맥/리눅스는 `bash install.sh --force`, 윈도우는 `powershell -ExecutionPolicy Bypass -File .\install.ps1 -Force` 를 실행하세요. 기존 파일은 `config.yml.bak-날짜` 로 백업됩니다.
 > ❔ `이 시스템에서 스크립트를 실행할 수 없으므로` / `UnauthorizedAccess` 가 나오면 → 윈도우 기본 보안 정책이 `.ps1` 실행을 막는 겁니다. 위처럼 `powershell -ExecutionPolicy Bypass -File .\install.ps1` 로 실행하세요. (`.\install.ps1` 직접 실행은 정책을 풀어야만 됩니다.)
 
 ---
 
-## 4. 무료 키 받기 (2~3개)
+## 4. 무료 키 받기 (2개)
 
 일꾼 AI들이 쓸 **무료 열쇠(API 키)** 를 받습니다. 카드 등록 필요 없어요.
 
-| 어디서 | 링크 | 받을 것 | 언제 필요? |
+| 어디서 | 링크 | 받을 것 | 무료 한도(공식) |
 | --- | --- | --- | --- |
-| **OpenRouter** | <https://openrouter.ai/keys> | `sk-or-v1-...` | **항상** |
-| **Groq** | <https://console.groq.com/keys> | `gsk_...` | **항상** |
-| **NVIDIA NIM** | <https://build.nvidia.com/z-ai/glm-5-3> → **Get API Key** | `nvapi-...` | **방식 B 필수** / 방식 A는 선택(안정성↑) |
+| **OpenRouter** | <https://openrouter.ai/keys> | `sk-or-v1-...` | `:free` 모델 분당 20회, **하루 50회**(크레딧 $10 이상 충전 계정은 하루 1,000회) |
+| **NVIDIA NIM** | <https://build.nvidia.com> → 로그인 → **Get API Key** | `nvapi-...` | 분당 40회 (전화번호 인증 필요) |
 
-> **방식 A** = Gemini를 메인으로(구독 또는 무료 로그인) → OpenRouter·Groq 2개면 됨.
-> **방식 B** = Gemini 안 쓰고 NVIDIA **GLM-5.3**를 메인으로 → NVIDIA 키까지 3개.
-> (방식 A여도 Gemini가 막히면 자동으로 GLM-5.3로 넘어가므로 NVIDIA 키를 넣어두면 더 안정적)
+> 두 키 모두 **방식 A·B 공통**입니다. 방식 A(Gemini 메인)여도 Gemini가 막히면 NVIDIA 모델로 자동으로 넘어갑니다.
+> OpenRouter 하루 50회는 서브에이전트가 금방 씁니다. 다 쓰면 자동으로 NVIDIA 쪽으로 넘어가니 걱정하지 마세요.
+> ℹ️ 예전 버전에 있던 **Groq는 뺐습니다.** Groq 무료는 분당 8,000토큰 한도라 gjc 요청 한 번(빈 폴더에서도 약 1.2만 토큰)이 매번 `413 Request too large`로 거절됩니다.
 
 각 사이트에서 **구글 계정으로 로그인 → "Create Key" 버튼 → 이름 아무거나 → 만들기 → 나온 키를 복사**하면 됩니다.
 (버튼 위치까지 그림으로 보려면 [`guide.html`](guide.html) 참고)
@@ -125,7 +125,6 @@ bash install.sh
 ### 🪟 윈도우
 ```powershell
 setx OPENROUTER_API_KEY "여기에_복사한키_붙여넣기"
-setx GROQ_API_KEY "여기에_복사한키_붙여넣기"
 setx NVIDIA_API_KEY "여기에_복사한키_붙여넣기"
 ```
 👉 그리고 **터미널을 닫고 새로 여세요.** (`setx`는 새 창부터 적용돼요)
@@ -133,7 +132,6 @@ setx NVIDIA_API_KEY "여기에_복사한키_붙여넣기"
 ### 🍎 맥 / 리눅스
 ```bash
 echo 'export OPENROUTER_API_KEY="여기에_복사한키_붙여넣기"' >> ~/.zshrc
-echo 'export GROQ_API_KEY="여기에_복사한키_붙여넣기"' >> ~/.zshrc
 echo 'export NVIDIA_API_KEY="여기에_복사한키_붙여넣기"' >> ~/.zshrc
 source ~/.zshrc
 ```
@@ -153,18 +151,23 @@ source ~/.zshrc
 ```
 
 - **기본값이 이미 무료 Gemini(`google-antigravity/gemini-3.1-pro-low:high`)라, 위 로그인만 하면 바로 됩니다.** (설정 수정 불필요)
-- **무료로 됩니다.** Google이 2026-06-18 옛 Gemini CLI 무료(Code Assist for individuals)를 종료하며 **무료 사용자를 Antigravity 무료티어로 이전**했습니다. 개인 Gmail이면 카드 등록 없이 **Gemini 3.1 Pro** 가 무료로 돌아갑니다(공식 public preview).
-- ⚠️ **무료티어 할당량 주의.** preview라 하루 요청 수(대략 20 agent requests/day 수준)·몇 시간 단위 리셋·주간 상한이 있어, 많이 쓰면 금방 **`429`(한도 초과)** 가 납니다. 그땐 잠시 뒤 다시 쓰거나 **방식 B(NVIDIA GLM-5.3)**로 바꾸세요(폴백은 이미 자동). 무료는 preview 정책이라 영구 보장은 아닙니다.
-- ℹ️ `google-antigravity`에서 **Opus 등 Anthropic/Claude 모델은 유료(구독) 전용**이라 무료 계정이 그걸 고르면 **404 (Requested entity was not found)** 가 납니다. 무료로는 기본값 **Gemini 3.1 Pro** 만 쓰세요. (옛 `/login google-gemini-cli` 무료 경로는 종료됨)
+- **무료로 됩니다.** Google이 2026-06-18 옛 Gemini CLI 무료(Code Assist for individuals)를 종료하고 **Antigravity의 $0 Individual 플랜**으로 옮겼습니다. 개인 Gmail이면 카드 등록 없이 **Gemini 3.1 Pro** 를 씁니다.
+- ⚠️ **무료 할당량 주의.** Google은 "주간 사용량"이라고만 하고 **숫자를 공개하지 않습니다.** 많이 쓰면 **`429`(한도 초과)** 가 나는데, 그땐 설정된 순서대로 NVIDIA DeepSeek V4.1 Flash → OpenRouter Nemotron 3 Ultra로 **자동으로** 넘어갑니다.
+- ℹ️ 2026-10-09부터 바뀐 "Gemini 앱 무료는 Flash-Lite만" 소식은 **Gemini 웹/앱 이야기**이고, Antigravity 무료 플랜은 2026-10-13 기준 여전히 Gemini 3.1 Pro를 제공합니다.
+- ℹ️ `google-antigravity`에서 **Claude 모델은 무료로 기대하지 마세요.** 무료 계정에서 고르면 **404 (Requested entity was not found)** 가 납니다. 기본값 **Gemini 3.1 Pro** 를 쓰세요. (옛 `/login google-gemini-cli` 무료 경로는 종료됨)
 
-### 방식 B — Gemini 없이 NVIDIA GLM-5.3를 메인으로
-로그인 필요 없이 **NVIDIA 키**(4번에서 발급)만 있으면 됩니다.
-`~/.gjc-free/agent/config.yml` 을 열어 `default:` 줄을 이렇게 바꾸세요:
+### 방식 B — Gemini 없이 NVIDIA 모델을 메인으로
+**아무것도 안 해도 됩니다.** 구글 로그인을 안 하면 메인이 자동으로 다음 순서로 넘어갑니다:
+
 ```yaml
 modelRoles:
-  default: nvidia-nim/z-ai/glm-5.3   # 메인 = 무료 GLM-5.3 (753B)
+  default:
+    - google-antigravity/gemini-3.1-pro-low:high      # 로그인 안 했으면 건너뜀
+    - nvidia/deepseek-ai/deepseek-v4.1-flash          # ← 방식 B의 실제 메인
+    - openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
 ```
-> 폴백 순서(Gemini → GLM-5.3)는 이미 들어있으니 `default` 한 줄만 바꾸면 끝입니다.
+
+> GLM-5.3(`nvidia/z-ai/glm-5.3`)도 무료지만, 2026-10-15 실측에서 "OK" 한 마디에 270초가 걸려(DeepSeek V4.1 Flash 56초) 메인 기본값에서 뺐습니다. 쓰고 싶으면 `~/.gjc-free/agent/config.yml`의 `default:` 목록 맨 위에 `- nvidia/z-ai/glm-5.3` 을 넣으세요.
 
 ---
 
@@ -192,11 +195,14 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 | `git: command not found` | 3번 아래 안내대로 Git을 먼저 설치하세요. |
 | AI가 `401` / `unauthorized` / `키 없음` 이라고 함 | 5번 키 입력을 다시 하고 **터미널을 새로** 여세요. 키를 잘못 복사했을 수 있어요. |
 | **`Cloud Code Assist API error (404): Requested entity was not found`** | 로그인은 됐지만 **그 모델이 당신 계정 등급에 없는** 경우입니다. 무료 계정에서 **Opus 등 Anthropic/Claude(Antigravity 유료 전용) 모델**을 골랐을 때 대표적으로 납니다.<br>→ 무료면 `default:` 를 **`google-antigravity/gemini-3.1-pro-low:high`**(이 세팅 기본값)로 두세요. 무료티어는 Gemini 3.1 Pro만 됩니다.<br>다른 계정으로 잘못 로그인했으면 `free-gjc /logout` 후 개인 Gmail로 `/login google-antigravity` 재로그인. |
-| AI가 `429` / `RESOURCE_EXHAUSTED` / `quota` | **Antigravity 무료티어 할당량 소진**(하루 요청 수·주간 상한, 몇 시간 뒤 리셋). 잠시 뒤 다시 쓰거나 방식 B(NVIDIA GLM-5.3)로 전환하세요. |
-| `model_decommissioned` / `llama-3.3-70b-versatile`·`llama-3.1-8b-instant`·`z-ai/glm-5.2` 관련 `404`·`400` | **2026-07 이전에 설치한 분.** Groq가 2026-08-16 Llama 3.x 무료 제공을 종료하고, NVIDIA가 2026-08-20 GLM-5.2 API를 종료했습니다. 이 세팅은 **GPT-OSS 120B/20B(Groq)**·**GLM-5.3(NVIDIA)**로 교체됐으니 **repo를 `git pull` 후 설치 스크립트를 다시 실행**하세요(`~/.gjc-free/agent/`가 새 모델로 덮어써집니다). |
-| `모델을 찾을 수 없음` / `no match` | 무료 모델 이름이 바뀐 겁니다. 아래 링크에서 유효한 이름을 찾아 `~/.gjc-free/agent/` 안의 `models.yml`·`config.yml`을 고치세요.<br>OpenRouter: <https://openrouter.ai/models?q=free> · Groq: <https://console.groq.com/docs/models> |
+| AI가 `429` / `RESOURCE_EXHAUSTED` / `quota` | 무료 할당량 소진입니다. 메인은 자동으로 다음 모델로 넘어가는데, 목록 전부가 429면 잠시 뒤 다시 쓰세요. OpenRouter `:free`는 **하루 50회**(UTC 자정 리셋)라 가장 먼저 바닥납니다. |
+| `413 Request too large` / `tokens per minute (TPM): Limit 8000` | **예전 버전의 Groq 설정**입니다. Groq 무료는 gjc 요청을 못 받아서 뺐습니다. `git pull` 후 3번의 **`--force` 재설치**를 하세요. |
+| `model_decommissioned` / `llama-3.3-70b-versatile`·`z-ai/glm-5.2`·`groq-free`·`nvidia-nim`·`openrouter-free` 관련 오류 | **예전 버전 설정**입니다. 이 세팅은 이제 gjc 내장 `nvidia`·`openrouter` provider를 씁니다. `git pull` 후 3번의 **`--force` 재설치**를 하세요. |
+| `모델을 찾을 수 없음` / `no match` | 무료 모델 이름이 바뀐 겁니다. `free-gjc models` 로 지금 쓸 수 있는 이름을 확인해 `~/.gjc-free/agent/config.yml`을 고치세요.<br>OpenRouter 무료: <https://openrouter.ai/models?q=free> · NVIDIA 무료: <https://build.nvidia.com/explore/discover> |
+| `402 Payment Required` (OpenRouter) | `:free`가 없는 유료 모델을 골랐고 크레딧이 0원인 경우입니다. 청구되지 않고 거절된 것이니 `:free` 모델로 바꾸세요. **크레딧을 충전했다면 유료 모델은 실제로 과금됩니다.** |
+| `... is only available on agentic harnesses` (403) | OpenRouter의 `thinkingmachines/inkling:free` 처럼 등록된 앱에서만 열리는 무료 모델입니다. gjc에서는 안 되니 다른 `:free` 모델을 쓰세요. |
 | Gemini 로그인 브라우저가 안 열림 | 터미널에 뜬 주소(링크)를 복사해 직접 브라우저 주소창에 붙여넣으세요. |
-| `GOOGLE_CLOUD_PROJECT ... 환경변수를 설정해야` / `requires setting the GOOGLE_CLOUD_PROJECT` | **브라우저에 구글 계정을 여러 개 로그인해 두면** 로그인 창이 엉뚱한 회사/조직(Workspace) 계정으로 인증돼서 나는 오류입니다(개인 계정으로 로그인해도 발생). 해결: **시크릿/인프라이빗 창**을 새로 열고 **개인 지메일 1개만** 로그인한 상태에서, 터미널에 뜬 로그인 주소를 그 창에 붙여넣으세요. (또는 브라우저에서 회사/조직 계정을 전부 로그아웃하고 개인 계정만 남긴 뒤 재시도.) 그래도 안 되면 방식 B(NVIDIA GLM-5.3)로 쓰세요. |
+| `GOOGLE_CLOUD_PROJECT ... 환경변수를 설정해야` / `requires setting the GOOGLE_CLOUD_PROJECT` | **브라우저에 구글 계정을 여러 개 로그인해 두면** 로그인 창이 엉뚱한 회사/조직(Workspace) 계정으로 인증돼서 나는 오류입니다(개인 계정으로 로그인해도 발생). 해결: **시크릿/인프라이빗 창**을 새로 열고 **개인 지메일 1개만** 로그인한 상태에서, 터미널에 뜬 로그인 주소를 그 창에 붙여넣으세요. (또는 브라우저에서 회사/조직 계정을 전부 로그아웃하고 개인 계정만 남긴 뒤 재시도.) 그래도 안 되면 로그인 없이 쓰세요(방식 B, NVIDIA 모델이 메인이 됩니다). |
 | **`Provider stream timed out while waiting for the first event`** / `... stalled while waiting for the next event` | 무료 티어 모델이 **첫 토큰을 늦게 뱉어서**(추론 모델 + 대기열 + 긴 대화) gjc의 스트림 감시 타이머에 걸린 겁니다. 최신 `free-gjc` 런처는 이 타이머를 넉넉하게(첫 응답 10분 / 유휴 5분) 잡아두니 **repo를 `git pull` 후 3번 설치를 다시 실행**하세요. 그래도 나면 대화가 너무 길어진 것 — `/compact` 로 컨텍스트를 줄이거나 새 세션으로 시작하세요. |
 
 > 🗨️ **혼자 해결 안 되면** — 오픈카톡으로 물어보세요: **<https://open.kakao.com/o/pW7JOXDi>**
@@ -214,21 +220,22 @@ free-gjc "파이썬으로 계산기 만들어줘"       # 한 번에 시키기
 
 | 역할 | 모델 | 조달 |
 | --- | --- | --- |
-| 메인(default) | Gemini(방식 A) / GLM-5.3(방식 B) | 구글 로그인 또는 NVIDIA 키 |
-| executor·architect | Nemotron 3 Super 120B (무료) | OpenRouter 키 |
-| planner | GPT-OSS 120B (무료) | Groq 키 |
-| critic | GPT-OSS 20B (무료) | Groq 키 |
+| 역할 | 1순위 | 막히면 → |
+| --- | --- | --- |
+| 메인(default) | Gemini 3.1 Pro (Antigravity 로그인) | DeepSeek V4.1 Flash (NVIDIA) → Nemotron 3 Ultra 550B (OpenRouter) |
+| executor·critic | Nemotron 3 Super 120B (OpenRouter) | DeepSeek V4.1 Flash (NVIDIA) |
+| planner | Nemotron 3 Ultra 550B (OpenRouter) | DeepSeek V4.1 Flash (NVIDIA) |
+| architect | Nemotron 3 Ultra 550B (OpenRouter) | GLM-5.3 (NVIDIA) |
 
-메인은 **Gemini 1순위 → NVIDIA GLM-5.3 2순위**로 자동 폴백. 서브에이전트 무료 모델이 멈추면 다른 무료 → 마지막엔 GLM-5.3로 전환됩니다.
+모두 gjc **내장 provider**(`google-antigravity`·`nvidia`·`openrouter`)라 따로 정의할 게 없습니다. 어느 모델이 로그인 없음·429·서버 오류가 나면 오른쪽 모델로 자동 전환됩니다.
 
 ## 파일 구성 (개발자용)
 
 | 경로 | 설치 위치 | 용도 |
 | --- | --- | --- |
-| `agent/config.yml` | `~/.gjc-free/agent/config.yml` | 역할 매핑 + 폴백 |
-| `agent/models.yml` | `~/.gjc-free/agent/models.yml` | 무료 provider 정의 (키는 env 이름만) |
-| `bin/free-gjc`, `.cmd`, `.ps1` | PATH | `free-gjc` 실행기 (프로필 격리) |
-| `install.sh` / `install.ps1` | — | 설치 스크립트 |
+| `agent/config.yml` | `~/.gjc-free/agent/config.yml` | 역할별 폴백 체인 (기존 파일은 `--force` 없이 안 덮음) |
+| `bin/free-gjc`, `.cmd`, `.ps1` | PATH | `free-gjc` 실행기. `GJC_CODING_AGENT_DIR=~/.gjc-free/agent` 로 사용자 설정·세션·인증만 분리하고, 프로젝트의 `.gjc/` 스킬·설정은 그대로 읽음 |
+| `install.sh` / `install.ps1` | — | 설치 스크립트 (`--force` / `-Force` = 백업 후 교체) |
 | `guide.html` | — | 그림 포함 키 발급 가이드 |
 
 ---

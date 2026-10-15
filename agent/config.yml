@@ -1,30 +1,28 @@
-lastChangelogVersion: 0.10.1
-# free-gjc-starter FREE 프로필 (free-gjc, GJC_CONFIG_DIR=.gjc-free).
-# default(메인) = 무료 Gemini(google-antigravity/gemini-3.1-pro, 개인 Gmail OAuth 무료티어). 서브에이전트 = 무료 모델.
-# 내장 유료 OpenRouter는 실수 방지용으로 비활성화(우리는 커스텀 openrouter-free만 사용).
-disabledProviders:
-  - openrouter
+# free-gjc-starter FREE 프로필 (free-gjc 실행기 → GJC_CODING_AGENT_DIR=~/.gjc-free/agent).
+#
+# 각 역할은 "폴백 체인"이다. 앞 모델이 로그인 안 됨·429·5xx로 실패하면 다음 모델로 넘어간다.
+# 모두 gjc 내장 provider를 쓰므로 models.yml이 필요 없다. 키는 셸 환경변수로만 넣는다.
+#   google-antigravity : /login google-antigravity (개인 Gmail OAuth, 무료 Individual 플랜)
+#   nvidia             : NVIDIA_API_KEY      (build.nvidia.com 무료 Developer 키)
+#   openrouter         : OPENROUTER_API_KEY  (":free" 모델만 지정. 크레딧 0원이면 유료 모델은 402로 거절된다)
+#
+# 주의: gjc가 처음 실행될 때 이 파일을 다시 쓰면서 주석을 지울 수 있다. 정상이다.
 modelRoles:
-  default:   google-antigravity/gemini-3.1-pro-low:high
-  executor:  openrouter-free/nvidia/nemotron-3-super-120b-a12b:free
-  architect: openrouter-free/nvidia/nemotron-3-super-120b-a12b:free
-  planner:   groq-free/openai/gpt-oss-120b
-  critic:    groq-free/openai/gpt-oss-20b
-retry:
-  # 메인(default)은 Gemini(1순위) → NVIDIA NIM GLM-5.3(2순위)로 폴백.
-  # 서브에이전트 무료 모델이 죽으면 다른 무료 → 마지막엔 GLM-5.3로 안전하게 폴백.
-  fallbackChains:
-    # 메인 두뇌: 무료 Gemini(antigravity gemini-3.1-pro) 1st, GLM-5.3 2nd
-    google-antigravity/gemini-3.1-pro-low:high:
-      - nvidia-nim/z-ai/glm-5.3
-    openrouter-free/nvidia/nemotron-3-super-120b-a12b:free:
-      - groq-free/openai/gpt-oss-120b
-      - nvidia-nim/z-ai/glm-5.3
-    groq-free/openai/gpt-oss-120b:
-      - openrouter-free/nvidia/nemotron-3-super-120b-a12b:free
-      - nvidia-nim/z-ai/glm-5.3
-    groq-free/openai/gpt-oss-20b:
-      - groq-free/openai/gpt-oss-120b
-      - nvidia-nim/z-ai/glm-5.3
+  default:
+    - google-antigravity/gemini-3.1-pro-low:high
+    - nvidia/deepseek-ai/deepseek-v4.1-flash
+    - openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+  executor:
+    - openrouter/nvidia/nemotron-3-super-120b-a12b:free
+    - nvidia/deepseek-ai/deepseek-v4.1-flash
+  architect:
+    - openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+    - nvidia/z-ai/glm-5.3
+  planner:
+    - openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+    - nvidia/deepseek-ai/deepseek-v4.1-flash
+  critic:
+    - openrouter/nvidia/nemotron-3-super-120b-a12b:free
+    - nvidia/deepseek-ai/deepseek-v4.1-flash
 theme:
   dark: opencode

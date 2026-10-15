@@ -18,10 +18,10 @@
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">0. 어떤 방식으로 쓸지</h3>
 <table border="1" style="border-collapse:collapse;width:100%;font-size:14px;">
 <tr style="background:#f0f2f5;"><th style="padding:7px;border:1px solid #ccc;">방식</th><th style="padding:7px;border:1px solid #ccc;">메인 두뇌</th><th style="padding:7px;border:1px solid #ccc;">필요한 무료 키</th></tr>
-<tr><td style="padding:7px;border:1px solid #ccc;"><b>A</b> (추천)</td><td style="padding:7px;border:1px solid #ccc;">Gemini — 구독 or <b>무료 로그인</b></td><td style="padding:7px;border:1px solid #ccc;">OpenRouter, Groq (2개)</td></tr>
-<tr><td style="padding:7px;border:1px solid #ccc;"><b>B</b></td><td style="padding:7px;border:1px solid #ccc;">Gemini 없이 <b>NVIDIA GLM-5.3</b></td><td style="padding:7px;border:1px solid #ccc;">OpenRouter, Groq, NVIDIA (3개)</td></tr>
+<tr><td style="padding:7px;border:1px solid #ccc;"><b>A</b> (추천)</td><td style="padding:7px;border:1px solid #ccc;">Gemini — 구독 or <b>무료 로그인</b></td><td style="padding:7px;border:1px solid #ccc;">OpenRouter, NVIDIA (2개)</td></tr>
+<tr><td style="padding:7px;border:1px solid #ccc;"><b>B</b></td><td style="padding:7px;border:1px solid #ccc;">Gemini 없이 <b>NVIDIA DeepSeek V4.1 Flash</b> (로그인만 건너뛰면 자동)</td><td style="padding:7px;border:1px solid #ccc;">OpenRouter, NVIDIA (2개)</td></tr>
 </table>
-<p style="color:#666;">※ A로 해도 Gemini가 막히면 자동으로 GLM-5.3로 넘어가게 이미 설정돼 있음.</p>
+<p style="color:#666;">※ A로 해도 Gemini가 막히면 DeepSeek V4.1 Flash(NVIDIA) → Nemotron 3 Ultra(OpenRouter) 순으로 자동 전환됨. 예전에 있던 Groq는 뺐음(무료 분당 8천 토큰이라 gjc 요청이 매번 413).</p>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">1. 준비물</h3>
 <p>구글 계정 하나(Gmail), 인터넷 되는 윈도우/맥. 돈 안 듬.</p>
@@ -56,36 +56,32 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1</pre>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">git clone https://github.com/yazzang-homelab/free-gjc-starter.git
 cd free-gjc-starter
 bash install.sh</pre>
+<p style="margin:4px 0;color:#555;">🔄 예전에 깐 사람: 기존 config.yml은 안 덮어씀. <code>git pull</code> 후 <b>bash install.sh --force</b> (윈도우는 <b>.\install.ps1 -Force</b>) — 기존 파일은 .bak-날짜로 백업됨.</p>
 <p style="margin:4px 0;color:#555;">❔ "이 시스템에서 스크립트를 실행할 수 없으므로" 오류 = 윈도우 기본 정책이 .ps1을 막는 것 → 위처럼 <b>-ExecutionPolicy Bypass</b> 붙여 실행하면 됨.</p>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">5. 무료 API 키 발급</h3>
 <p>각 사이트에서 <b>구글 로그인 → Create Key → 이름 입력 → 키 복사</b>.</p>
 <table border="1" style="border-collapse:collapse;width:100%;font-size:14px;">
-<tr style="background:#f0f2f5;"><th style="padding:7px;border:1px solid #ccc;">사이트</th><th style="padding:7px;border:1px solid #ccc;">주소</th><th style="padding:7px;border:1px solid #ccc;">언제</th></tr>
-<tr><td style="padding:7px;border:1px solid #ccc;">OpenRouter</td><td style="padding:7px;border:1px solid #ccc;">openrouter.ai/keys</td><td style="padding:7px;border:1px solid #ccc;">항상</td></tr>
-<tr><td style="padding:7px;border:1px solid #ccc;">Groq</td><td style="padding:7px;border:1px solid #ccc;">console.groq.com/keys</td><td style="padding:7px;border:1px solid #ccc;">항상</td></tr>
-<tr><td style="padding:7px;border:1px solid #ccc;">NVIDIA NIM</td><td style="padding:7px;border:1px solid #ccc;">build.nvidia.com/z-ai/glm-5-3 → Get API Key</td><td style="padding:7px;border:1px solid #ccc;">B 필수 / A 선택</td></tr>
+<tr style="background:#f0f2f5;"><th style="padding:7px;border:1px solid #ccc;">사이트</th><th style="padding:7px;border:1px solid #ccc;">주소</th><th style="padding:7px;border:1px solid #ccc;">무료 한도</th></tr>
+<tr><td style="padding:7px;border:1px solid #ccc;">OpenRouter</td><td style="padding:7px;border:1px solid #ccc;">openrouter.ai/keys</td><td style="padding:7px;border:1px solid #ccc;">:free 하루 50회</td></tr>
+<tr><td style="padding:7px;border:1px solid #ccc;">NVIDIA NIM</td><td style="padding:7px;border:1px solid #ccc;">build.nvidia.com → Get API Key</td><td style="padding:7px;border:1px solid #ccc;">분당 40회</td></tr>
 </table>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">6. 키 넣기</h3>
 <p style="margin-bottom:4px;color:#555;">🪟 윈도우 (안 쓰는 줄은 빼도 됨):</p>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">setx OPENROUTER_API_KEY "여기에_키"
-setx GROQ_API_KEY "여기에_키"
 setx NVIDIA_API_KEY "여기에_키"</pre>
 <p style="margin:4px 0;">👉 터미널 새로 열기(setx는 새 창부터 적용).</p>
 <p style="margin-bottom:4px;color:#555;">🍎 맥 / 리눅스:</p>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">echo 'export OPENROUTER_API_KEY="여기에_키"' &gt;&gt; ~/.zshrc
-echo 'export GROQ_API_KEY="여기에_키"'       &gt;&gt; ~/.zshrc
 echo 'export NVIDIA_API_KEY="여기에_키"'     &gt;&gt; ~/.zshrc
 source ~/.zshrc</pre>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">7. 메인 두뇌 정하기</h3>
 <p><b>[방식 A] Gemini(무료)</b> — <code style="background:#eee;padding:1px 5px;border-radius:4px;">free-gjc</code> 실행 후 <code style="background:#eee;padding:1px 5px;border-radius:4px;">/login google-antigravity</code>. <b>기본값이 이미 <code style="background:#eee;padding:1px 5px;border-radius:4px;">google-antigravity/gemini-3.1-pro-low:high</code>라 로그인만 하면 됨.</b> (구글이 2026-06-18 옛 gemini-cli 무료를 종료하고 무료 사용자를 Antigravity 무료티어로 이전 → 개인 Gmail이면 카드 X, Gemini 3.1 Pro 무료)</p>
 <p style="color:#a00;">⚠️ 로그인 전: 브라우저에 구글 계정 여러 개면 엉뚱한 회사 계정으로 인증돼 <code style="background:#eee;padding:1px 5px;border-radius:4px;">GOOGLE_CLOUD_PROJECT</code> 오류 남. <b>시크릿 창에서 개인 지메일 1개만</b> 로그인한 채로 진행하셈.</p>
-<p style="color:#a00;">🪫 무료티어는 할당량 빡셈(하루 요청 수·주간 상한, preview) → 많이 쓰면 <b>429</b>. 그땐 잠깐 쉬거나 방식 B(GLM-5.3). Antigravity에서 Opus 등 Claude 모델은 유료라 무료 계정이 고르면 <b>404</b> — 무료는 Gemini 3.1 Pro만.</p>
-<p><b>[방식 B] GLM-5.3</b> — 로그인 없이 NVIDIA 키만. <code style="background:#eee;padding:1px 5px;border-radius:4px;">~/.gjc-free/agent/config.yml</code> 의 default를:</p>
-<pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">modelRoles:
-  default: nvidia-nim/z-ai/glm-5.3</pre>
+<p style="color:#a00;">🪫 무료 할당량은 "주간 사용량"이라고만 하고 숫자 비공개 → 많이 쓰면 <b>429</b>, 그땐 NVIDIA 쪽으로 자동 전환. Antigravity의 Claude 모델은 무료 계정이 고르면 <b>404</b> — Gemini 3.1 Pro 쓰셈.</p>
+<p><b>[방식 B] NVIDIA</b> — 로그인을 안 하면 끝. 메인이 자동으로 DeepSeek V4.1 Flash(NVIDIA)로 넘어감. 설정 수정 없음.</p>
 
 <h3 style="font-size:18px;border-bottom:2px solid #ddd;padding-bottom:4px;margin-top:26px;">8. 확인 &amp; 첫 대화</h3>
 <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:8px;padding:12px;overflow:auto;font-size:13px;">free-gjc -p --no-session "안녕? 넌 누구야?"</pre>
